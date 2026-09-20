@@ -26,12 +26,15 @@
 
   let stInstance = null;   /* active ScrollTrigger */
   let currentMode = null;  /* 'simple' | 'scroll' */
+  let clampY = 0;          /* currently-applied anti-collision shift  */
+  let clampScale = 1;      /* currently-applied anti-collision scale  */
 
   function els() {
     return {
       heroTop: document.getElementById('heroTop'),
       heroBot: document.getElementById('heroBot'),
       laptop:  document.getElementById('laptop'),
+      wrap:    document.getElementById('laptopWrap'),
       camera:  document.getElementById('camera'),
       lid:     document.getElementById('lid'),
       screen:  document.getElementById('screen'),
@@ -42,6 +45,43 @@
       railBar: document.getElementById('railBar'),
       railNum: document.getElementById('railNum'),
     };
+  }
+
+  /* Anti-collision clamp: while the lid opens it swings toward the headline.
+     Measure the real gap every frame; if it shrinks, drop the laptop down
+     (and shrink slightly on very short screens) so text is never covered. */
+  function applyLaptopClamp(e) {
+    if (!e.laptop || !e.lid || !e.heroTop || !e.wrap) return;
+    const vh = innerHeight;
+    const txtBottom = e.heroTop.getBoundingClientRect().bottom;
+    /* geometry with the current clamp removed ("unshifted" coordinates) */
+    const lidTop0 = e.lid.getBoundingClientRect().top - clampY;
+    const lidH0   = e.lid.getBoundingClientRect().height / clampScale;
+    const minGap  = Math.max(28, vh * 0.05);          /* want ≥ ~5% of vh */
+    const need    = minGap - (lidTop0 - txtBottom);   /* >0 → collision  */
+    if (need > 0) {
+      /* 1) drop the hinge (capped so the base stays visible) */
+      const CAP = 160;
+      const shift = Math.min(CAP, need);
+      /* 2) still not clear? shrink around center so the top clears too */
+      const remaining = need - shift;
+      const cy0 = lidTop0 + lidH0 / 2;
+      let s = 1;
+      if (remaining > 0) s = Math.min(s, 1 - (2 * remaining) / lidH0);
+      /* keep the base inside the viewport */
+      const maxBottom = vh - 8;
+      if (cy0 + (lidH0 * s) / 2 + shift > maxBottom) {
+        s = Math.min(s, (2 * (maxBottom - shift - cy0)) / lidH0);
+      }
+      s = Math.max(0.68, Math.min(1, s));
+      clampY = shift; clampScale = s;
+      e.wrap.style.transform = shift ? `translateY(${shift.toFixed(1)}px)` : '';
+      if (s < 1) e.laptop.style.scale = s.toFixed(3); else e.laptop.style.scale = '';
+    } else if (clampY || clampScale !== 1) {
+      clampY = 0; clampScale = 1;
+      e.wrap.style.transform = '';
+      e.laptop.style.scale = '';
+    }
   }
 
   function isSimpleMode() {
@@ -58,6 +98,9 @@
     gsap.set(e.specs,  { opacity: 1, y: 0 });
     gsap.set(e.heroTop, { opacity: 1, y: 0 });
     gsap.set(e.heroBot, { opacity: 1 });
+    if (e.wrap) e.wrap.style.transform = '';
+    e.laptop.style.scale = '';
+    clampY = 0; clampScale = 1;
     currentMode = 'simple';
   }
 
@@ -86,6 +129,7 @@
           const p = Math.round(self.progress * 100);
           if (e.railBar) e.railBar.style.height = p + '%';
           if (e.railNum) e.railNum.textContent = String(Math.min(99, p)).padStart(2, '0');
+          applyLaptopClamp(e);
         },
       },
     });
@@ -94,11 +138,14 @@
     /* Phase 1 — hold closed (0 → ~8%) */
     tl.to(e.heroBot, { opacity: 1, duration: 0.5 }, 0);
 
-    /* Phase 2 — lid swings open: -86° (closed) → +12° (~102° open) */
+    /* Phase 2 — lid swings open: -86° (closed) → +12° (~102° open).
+       If the lid would reach the headline, applyLaptopClamp drops the
+       laptop for those frames (see onUpdate) and it returns after. */
     tl.to(e.lid,   { rotateX: 12, ease: 'power2.inOut', duration: 4.5 }, 1.0)
       .to(e.laptop, { rotateX: 22, ease: 'power2.inOut', duration: 4.5 }, 1.0)
       .to(e.heroBot, { opacity: 0, y: 20, duration: 1.0 }, 1.0)
-      .to(e.heroTop, { y: -30, duration: 3.0, ease: 'none' }, 1.0);
+      /* text drifts DOWN as the lid rises, so they never collide */
+      .to(e.heroTop, { y: 14, duration: 3.5, ease: 'none' }, 1.0);
 
     /* Phase 3 — screen wakes */
     tl.to(e.screen, { opacity: 1, filter: 'brightness(1.15)', ease: 'power2.out', duration: 1.2 }, 4.5)
@@ -122,6 +169,9 @@
     gsap.set('#heroStage', { clearProps: 'all' });
     const e = els();
     gsap.set([e.lid, e.laptop, e.camera, e.screen, e.ui, e.glow, e.heroTop, e.heroBot].concat(e.specs), { clearProps: 'all' });
+    if (e.wrap) e.wrap.style.transform = '';
+    if (e.laptop) e.laptop.style.scale = '';
+    clampY = 0; clampScale = 1;
     currentMode = null;
   }
 
@@ -145,6 +195,9 @@
   let resizeTimer = null;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(init, 200);
+    resizeTimer = setTimeout(() => {
+      init();
+      if (currentMode === 'scroll' && stInstance) applyLaptopClamp(els());
+    }, 200);
   });
 })();

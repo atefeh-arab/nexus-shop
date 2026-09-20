@@ -40,7 +40,8 @@
 
 /* ---- copy ---- */
 .hero-copy{position:absolute;left:0;right:0;text-align:center;z-index:5;pointer-events:none}
-.hero-copy.top{top:11vh}
+/* headline sits high, clear of the opening lid even on short laptop screens */
+.hero-copy.top{top:calc(max(56px, 4vh) + 10px)}
 .hero-copy.bot{bottom:5vh}
 .hero-eyebrow{
   font-size:11px;letter-spacing:.35em;text-transform:uppercase;
@@ -84,9 +85,12 @@
   z-index:2;
 }
 .camera{transform-style:preserve-3d;will-change:transform}
+/* translateY-only clamp layer; kept out of the camera's 3D math */
+.laptop-wrap{transform:translateY(0px)}
 .laptop{
   position:relative;
-  width:min(760px, 62vw);
+  /* 88vh cap: on short screens the open lid must never reach the headline */
+  width:min(760px, 62vw, 88vh);
   aspect-ratio: 16 / 10.5;
   transform-style:preserve-3d;
   transform: rotateX(18deg);
@@ -265,7 +269,7 @@
 
 @media(max-width:720px){
   .laptop{width:88vw}
-  .hero-copy.top{top:8vh}
+  .hero-copy.top{top:calc(max(56px, 4vh) + 8px)}
   .spec .label{font-size:8.5px}
   .spec .value{font-size:13px}
   .spec .sub{font-size:8.5px}
