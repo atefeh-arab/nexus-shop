@@ -161,6 +161,14 @@
     clearReceipt();
     f.reset();
 
+    /* cloud sync — the order (with receipt) travels to the admin panel */
+    if (S.pushOrders) {
+      S.pushOrders().then(() => {
+        const tag = $('#cloudTag');
+        if (tag) tag.hidden = false;
+      }).catch(() => {});
+    }
+
     $('#pgOrderNo').textContent = order.code;
     $('#sCode').textContent = order.code;
     const ov = $('#successOverlay');

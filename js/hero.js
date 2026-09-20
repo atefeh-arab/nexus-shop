@@ -41,6 +41,7 @@
       ui:      document.getElementById('ui'),
       specs:   gsap.utils.toArray('#uiGrid .spec'),
       glow:    document.getElementById('glow'),
+      heroBg:  document.getElementById('heroBg'),
       shadow:  document.querySelector('.hero-stage .shadow'),
       railBar: document.getElementById('railBar'),
       railNum: document.getElementById('railNum'),
@@ -98,6 +99,8 @@
     gsap.set(e.specs,  { opacity: 1, y: 0 });
     gsap.set(e.heroTop, { opacity: 1, y: 0 });
     gsap.set(e.heroBot, { opacity: 1 });
+    const bg = document.getElementById('heroBg');
+    if (bg) bg.classList.add('on');
     if (e.wrap) e.wrap.style.transform = '';
     e.laptop.style.scale = '';
     clampY = 0; clampScale = 1;
@@ -147,10 +150,14 @@
       /* text drifts DOWN as the lid rises, so they never collide */
       .to(e.heroTop, { y: 14, duration: 3.5, ease: 'none' }, 1.0);
 
-    /* Phase 3 — screen wakes */
+    /* Phase 3 — screen wakes; the night scene behind it fades in too */
     tl.to(e.screen, { opacity: 1, filter: 'brightness(1.15)', ease: 'power2.out', duration: 1.2 }, 4.5)
       .to(e.glow,   { opacity: 1, ease: 'power2.out', duration: 1.2 }, 4.5)
-      .to(e.ui,     { opacity: 1, ease: 'power2.out', duration: 1.0 }, 5.0);
+      .to(e.ui,     { opacity: 1, ease: 'power2.out', duration: 1.0 }, 5.0)
+      .add(() => {
+        const bg = document.getElementById('heroBg');
+        if (bg) bg.classList.add('on');
+      }, 4.2);
 
     /* Phase 4 — spec tiles stagger in */
     tl.to(e.specs, { opacity: 1, y: 0, stagger: 0.35, ease: 'power2.out', duration: 1.6 }, 5.4);

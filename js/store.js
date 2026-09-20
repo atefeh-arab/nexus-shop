@@ -11,7 +11,239 @@
     PRODUCTS: 'nexus.products.v1',
     CHAT: 'nexus.chat.v1',
     ADMIN: 'nexus.admin.v1',
+    SLOT: 'nexus.slot.v1',
   };
+
+  /* =========================================================
+     CLOUD SYNC (textdb.dev)
+     ------------------------------------------------------------
+     Every visitor with no slot yet gets a private slot id like
+     "nxo-4f9c2b18". Orders and support chats are POSTed there
+     and the admin panel can read ANY slot by its id, so data
+     from all visitors/ports shows up in one admin panel.
+     No login, no signup — the slot id is the address.
+     ========================================================= */
+  const CLOUD = 'https://textdb.dev/api/data/';
+  const INDEX_KEY = 'nexus-store-idx-9f3a7c';       /* public slot index */
+  const ADMIN_REG = 'nexus-store-admin-c1a2e3';     /* admin registry */
+  const MAX_SLOT_BYTES = 450 * 1024;                /* textdb.dev per-slot cap */
+
+  function getSlot() {
+    let s = load(LS.SLOT, null);
+    if (!s || typeof s !== 'string' || !s.startsWith('nxo-')) {
+      s = 'nxo-' + Math.random().toString(16).slice(2, 10);
+      save(LS.SLOT, s);
+    }
+    return s;
+  }
+  function setSlot(v) { save(LS.SLOT, v); }
+
+  async function cloudRead(key) {
+    const r = await fetch(CLOUD + key, { cache: 'no-store' });
+    if (!r.ok) throw new Error('cloud read ' + r.status);
+    return r.text();
+  }
+  async function cloudWrite(key, str) {
+    const body = String(str == null ? '' : str);
+    if (body.length > MAX_SLOT_BYTES) throw new Error('TOO_LARGE:' + body.length);
+    const r = await fetch(CLOUD + key, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body,
+    });
+    if (!r.ok) throw new Error('cloud write ' + r.status);
+    return true;
+  }
+
+  function registerSlot(slot, label) {
+    /* fire-and-forget: make this slot discoverable by the admin panel */
+    cloudRead(INDEX_KEY).then((txt) => {
+      const idx = txt ? JSON.parse(txt) : {};
+      if (idx[slot] !== label) {
+        idx[slot] = label || 'بازدیدکننده';
+        cloudWrite(INDEX_KEY, JSON.stringify(idx)).catch(() => {});
+      }
+    }).catch(() => {});
+  }
+
+  async function cloudGetAllSlots() {
+    /* admin: every registered slot + self-test slot  */
+    let idx = {};
+    try { idx = JSON.parse(await cloudRead(INDEX_KEY)) || {}; } catch (e) { idx = {}; }
+    return idx;
+  }
+
+  /* shrink an image dataUrl so the receipt fits the cloud slot limit */
+  function shrinkImage(dataUrl, maxKB) {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => {
+        const MAXW = 900;
+        const scale = Math.min(1, MAXW / img.width);
+        const cv = document.createElement('canvas');
+        cv.width = Math.max(1, Math.round(img.width * scale));
+        cv.height = Math.max(1, Math.round(img.height * scale));
+        const ctx = cv.getContext('2d');
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(0, 0, cv.width, cv.height);
+        ctx.drawImage(img, 0, 0, cv.width, cv.height);
+        let q = 0.82;
+        const step = () => {
+          const out = cv.toDataURL('image/jpeg', q);
+          if (out.length < (maxKB || 400) * 1024 || q <= 0.35) return out;
+          q -= 0.12;
+          return step();
+        };
+        resolve(step());
+      };
+      img.onerror = () => resolve(dataUrl); /* keep original on failure */
+      img.src = dataUrl;
+    });
+  }
+
+  /* the slot is single-valued: ALWAYS write the full state (orders + chat)
+     in one go so a chat push never clobbers orders and vice versa */
+  async function pushState() {
+    const slot = getSlot();
+    const payload = { slot, updatedAt: Date.now(), orders: getOrders(), chat: getThreads() };
+
+    /* keep newest receipts; shrink if the payload would exceed the cap */
+    const fit = async (p) => {
+      const txt = JSON.stringify(p);
+      if (txt.length <= MAX_SLOT_BYTES) return p;
+      const clone = JSON.parse(JSON.stringify(p));
+      /* 1) shrink the newest receipt, drop older ones */
+      const withR = clone.orders.map((o) => o.receipt && o.receipt.dataUrl);
+      let kept = 0;
+      for (const o of clone.orders) {
+        if (o.receipt && o.receipt.dataUrl) {
+          kept++;
+          if (kept > 2) o.receipt = null;
+        }
+      }
+      if (JSON.stringify(clone).length <= MAX_SLOT_BYTES) return clone;
+      /* 2) shrink newest receipt image */
+      for (const o of clone.orders) {
+        if (o.receipt && o.receipt.dataUrl && o.receipt.dataUrl.length > 60 * 1024) {
+          o.receipt = Object.assign({}, o.receipt, { dataUrl: await shrinkImage(o.receipt.dataUrl, 300) });
+          if (JSON.stringify(clone).length <= MAX_SLOT_BYTES) return clone;
+        }
+      }
+      /* 3) trim oldest chats, then oldest receipt-less orders */
+      while (clone.chat.length > 1 && JSON.stringify(clone).length > MAX_SLOT_BYTES) clone.chat.pop();
+      return clone;
+    };
+
+    const safe = await fit(payload);
+    await cloudWrite(slot, JSON.stringify(safe));
+    registerSlot(slot, 'بازدیدکننده · ' + new Date().toISOString().slice(0, 10));
+  }
+  const pushOrders = pushState;
+  const pushChat = pushState;
+
+  async function pullSlot(slot) {
+    const txt = await cloudRead(slot);
+    return txt ? JSON.parse(txt) : null;
+  }
+
+  /* merge helpers (admin side) */
+  function mergeOrders(cloudOrders) {
+    const local = getOrders();
+    let added = 0;
+    (cloudOrders || []).forEach((o) => {
+      if (!local.some((x) => x.id === o.id)) { local.push(o); added++; }
+    });
+    if (added) {
+      local.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+      saveOrders(local);
+    }
+    return added;
+  }
+  function mergeChat(cloudChat) {
+    const local = getThreads();
+    let changedCount = 0;
+    (cloudChat || []).forEach((ct) => {
+      const lt = local.find((x) => x.id === ct.id);
+      if (!lt) {
+        local.push(ct);
+        changedCount++;
+        return;
+      }
+      let changed = false;
+      (ct.messages || []).forEach((m) => {
+        const dup = lt.messages.some((x) => x.at === m.at && x.text === m.text && x.from === m.from);
+        if (!dup) {
+          lt.messages.push(m);
+          changed = true;
+          /* new incoming messages bump the right unread counter */
+          if (m.from === 'user') lt.unreadForAdmin = (lt.unreadForAdmin || 0) + 1;
+          else lt.unreadForUser = (lt.unreadForUser || 0) + 1;
+        }
+      });
+      if (ct.updatedAt > lt.updatedAt) lt.updatedAt = ct.updatedAt;
+      if (changed) {
+        lt.messages.sort((a, b) => (a.at || 0) - (b.at || 0));
+        changedCount++;
+      }
+    });
+    if (changedCount) saveThreads(local);
+    return changedCount;
+  }
+
+  /* admin: append a reply to a SPECIFIC thread (not to "my own" thread) */
+  function replyToThread(threadId, text) {
+    const threads = getThreads();
+    const t = threads.find((x) => x.id === threadId);
+    if (!t) return null;
+    t.messages.push({ from: 'admin', text: String(text || '').slice(0, 1000), at: Date.now() });
+    t.updatedAt = Date.now();
+    t.unreadForUser = (t.unreadForUser || 0) + 1;
+    threads.sort((a, b) => b.updatedAt - a.updatedAt);
+    saveThreads(threads);
+    return t;
+  }
+
+  /* admin → visitor: write the visitor's own thread back to their slot.
+     Orders already in the payload are preserved untouched. */
+  async function pushReplyToSlot(slotId) {
+    const t = getThreads().find((x) => x.id === slotId);
+    if (!t) return;
+    let payload = {};
+    try { payload = JSON.parse(await cloudRead(slotId)) || {}; } catch (e) { payload = {}; }
+    payload.slot = slotId;
+    payload.chat = [t];   /* a visitor slot holds exactly one thread */
+    payload.updatedAt = Date.now();
+    await cloudWrite(slotId, JSON.stringify(payload));
+  }
+
+  /* visitor side: merge whatever came from my own slot */
+  function mergeChatRemote(cloudChat) { return mergeChat(cloudChat); }
+
+  /* admin: drop a visitor slot from the public index (e.g. deleted chat) */
+  function removeSlotFromIndex(slot) {
+    cloudRead(INDEX_KEY).then((txt) => {
+      const idx = txt ? JSON.parse(txt) : {};
+      if (idx[slot] != null) {
+        delete idx[slot];
+        cloudWrite(INDEX_KEY, JSON.stringify(idx)).catch(() => {});
+      }
+    }).catch(() => {});
+  }
+
+  async function adminSync() {
+    /* admin panel: pull every known slot and merge into local view */
+    const idx = await cloudGetAllSlots();
+    let orders = 0, chats = 0, failed = 0;
+    await Promise.all(Object.keys(idx).map(async (slot) => {
+      try {
+        const data = await pullSlot(slot);
+        if (!data) return;
+        orders += mergeOrders(data.orders);
+        chats += mergeChat(data.chat);
+      } catch (e) { failed++; }
+    }));
+    return { slots: Object.keys(idx).length, orders, chats, failed };
+  }
 
   /* ---------------- utils ---------------- */
   function faNum(n) { return String(n).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[+d]); }
@@ -396,9 +628,8 @@
   /* one thread per browser (visitor). Admin sees all threads. */
   function threadId() { return 'visitor-' + (load('nexus.visitorId', null) || uid('v').slice(3)); }
   function ensureVisitorId() {
-    let v = load('nexus.visitorId', null);
-    if (!v) { v = uid('v'); save('nexus.visitorId', v); }
-    return v;
+    /* same id as the cloud slot — one identity everywhere */
+    return getSlot();
   }
 
   function getThreads() { return load(LS.CHAT, []); }
@@ -409,7 +640,9 @@
   }
 
   function sendMessage(text, from) {
-    const tid = ensureVisitorId();
+    /* the thread id IS the visitor's cloud slot id, so the admin panel
+       can always write replies straight back to the right slot */
+    const tid = getSlot();
     const threads = getThreads();
     let thread = threads.find((t) => t.id === tid);
     if (!thread) {
@@ -452,7 +685,7 @@
   }
 
   function userUnreadCount() {
-    const tid = ensureVisitorId();
+    const tid = getSlot();
     const t = getThreads().find((x) => x.id === tid);
     return t ? (t.unreadForUser || 0) : 0;
   }
@@ -506,5 +739,8 @@
     getThreads, getThread, sendMessage, markRead, adminUnreadCount, userUnreadCount, deleteThread, ensureVisitorId,
     getPass, setPass, checkPass, isUnlocked, unlock, lock,
     faDate, faTime, faDateTime, stars, statusInfo,
+    /* cloud sync */
+    getSlot, setSlot, cloudGetAllSlots, adminSync, pushOrders, pushChat, pullSlot, shrinkImage,
+    pushReplyToSlot, mergeChatRemote, removeSlotFromIndex, replyToThread,
   };
 })();

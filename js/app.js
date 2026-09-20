@@ -287,6 +287,7 @@
     chatEl.classList.toggle('open', chatOpen);
     if (chatOpen) {
       renderChatBody();
+      updateFabBadge();
       setTimeout(() => chatEl.querySelector('#chatInput').focus(), 250);
     }
   }
@@ -313,6 +314,7 @@
         <button class="ch-close" aria-label="بستن چت">${icon('x', 16)}</button>
       </div>
       <div class="chat-msgs" id="chatMsgs"></div>
+      <div class="chat-status" id="chatStatus"></div>
       <form class="chat-input" id="chatForm">
         <input type="text" id="chatInput" placeholder="پیام خود را بنویسید…" maxlength="1000" autocomplete="off">
         <button type="submit" aria-label="ارسال">${icon('arrowL', 18)}</button>
@@ -330,22 +332,53 @@
       S.sendMessage(text, 'user');
       inp.value = '';
       renderChatBody();
-      /* auto-reply hint so the visitor knows a human will answer */
-      setTimeout(() => {
-        const th = S.sendMessage('پیام شما ثبت شد ✅ کارشناس پشتیبانی حداکثر تا ۱۵ دقیقه پاسخ می‌دهد. برای پیگیری سریع‌تر می‌توانید شماره تماس هم بنویسید.', 'admin');
-        S.markRead(th.id, 'user');
-        if (chatOpen) renderChatBody();
-        updateFabBadge();
-      }, 1500);
+
+      /* cloud sync — the message travels to the admin panel */
+      if (S.pushChat) {
+        S.pushChat().then(() => {
+          const st = chatEl.querySelector('#chatStatus');
+          if (st) {
+            st.textContent = '✓ پیام به پشتیبانی ارسال شد';
+            st.classList.add('on');
+            setTimeout(() => { st.textContent = ''; st.classList.remove('on'); }, 4000);
+          }
+        }).catch(() => {
+          const st = chatEl.querySelector('#chatStatus');
+          if (st) {
+            st.textContent = 'پیام ذخیره شد؛ ارسال ابری ناموفق بود';
+            setTimeout(() => { st.textContent = ''; }, 4000);
+          }
+        });
+      }
     });
 
-    /* live sync — admin replies appear without reload */
+    /* live sync — admin replies appear without reload
+       (local tabs via storage event, cross-device via cloud poll) */
     window.addEventListener('storage', (e) => {
       if (e.key === 'nexus.chat.v1') {
         if (chatOpen) renderChatBody();
         updateFabBadge();
       }
     });
+    let lastCloudReply = 0;
+    if (S.pullSlot && S.getSlot) {
+      setInterval(() => {
+        S.pullSlot(S.getSlot()).then((data) => {
+          if (!data || !data.chat) return;
+          const tid = S.ensureVisitorId();
+          const mine = (data.chat || []).find((t) => t.id === tid);
+          if (!mine) return;
+          const n = (mine.messages || []).filter((m) => m.from === 'admin').length;
+          if (n > lastCloudReply && lastCloudReply !== 0) {
+            /* refresh thread from cloud so the reply shows up locally too */
+            S.mergeChatRemote ? S.mergeChatRemote(data.chat) : null;
+            if (chatOpen) renderChatBody();
+          }
+          lastCloudReply = n;
+          updateFabBadge();
+        }).catch(() => {});
+      }, 20000);
+    }
 
     updateFabBadge();
   }

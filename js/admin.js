@@ -29,7 +29,7 @@
     const unlocked = S.isUnlocked();
     $('#lockOverlay').hidden = unlocked;
     $('#adminMain').hidden = !unlocked;
-    if (unlocked) { renderOrders(); renderProducts(); renderThreads(); }
+    if (unlocked) { renderOrders(); renderProducts(); renderThreads(); startCloudSync(); }
   }
 
   $('#lockForm').addEventListener('submit', (e) => {
@@ -503,6 +503,7 @@
     view.querySelector('#tvDelete').addEventListener('click', () => {
       if (confirm('این گفتگو برای همیشه حذف شود؟')) {
         S.deleteThread(id);
+        if (S.removeSlotFromIndex) S.removeSlotFromIndex(id);
         activeThreadId = null;
         $('#threadView').innerHTML = `
           <div class="empty-state">
@@ -519,8 +520,10 @@
       const inp = view.querySelector('#tvInput');
       const text = inp.value.trim();
       if (!text) return;
-      S.sendMessage(text, 'admin');
+      S.replyToThread(id, text);
       inp.value = '';
+      /* deliver the reply straight to the visitor's cloud slot */
+      if (S.pushReplyToSlot) S.pushReplyToSlot(id).catch(() => {});
       openThread(id); /* re-render */
     });
   }
@@ -532,6 +535,59 @@
       if (activeThreadId) openThread(activeThreadId);
     }
   });
+
+  /* =========================================================
+     CLOUD SYNC (textdb.dev)
+     Pulls every visitor slot from the public index and merges
+     its orders + chats into the panel. Runs on unlock, every
+     60s and after every admin action. All visitors' data —
+     regardless of device or port — lands here.
+     ========================================================= */
+  let syncTimer = null;
+
+  function setSyncStatus(text, cls) {
+    const el = $('#syncStatus');
+    if (!el) return;
+    el.textContent = text || '';
+    el.className = 'sync-status' + (cls ? ' ' + cls : '');
+  }
+
+  async function doSync(silent) {
+    if (!S.adminSync) return;
+    if (!silent) setSyncStatus('⇅ در حال همگام‌سازی…', 'busy');
+    try {
+      const res = await S.adminSync();
+      renderOrders(); renderThreads();
+      const parts = [];
+      if (res.orders) parts.push(S.faNum(res.orders) + ' سفارش جدید');
+      if (res.chats) parts.push(S.faNum(res.chats) + ' گفتگوی جدید');
+      if (res.failed) parts.push(S.faNum(res.failed) + ' اسلات در دسترس نبود');
+      setSyncStatus(
+        '☁️ متصل — ' + S.faNum(res.slots) + ' کاربر متصل' + (parts.length ? ' · ' + parts.join(' · ') : ' · همه‌چیز به‌روز است'),
+        res.failed ? 'warn' : 'ok'
+      );
+    } catch (e) {
+      setSyncStatus('⚠️ اتصال به سرور ابری برقرار نشد — داده‌های محلی نمایش داده می‌شود', 'warn');
+    }
+  }
+
+  function startCloudSync() {
+    if (syncTimer) return;
+    doSync(false);
+    syncTimer = setInterval(() => doSync(true), 60000);
+  }
+
+  /* every admin action re-publishes replies + refreshes views */
+  const _setOrderStatus = S.setOrderStatus;
+  S.setOrderStatus = function (id, st) {
+    _setOrderStatus(id, st);
+    doSync(true);
+  };
+  const _deleteOrder = S.deleteOrder;
+  S.deleteOrder = function (id) {
+    _deleteOrder(id);
+    doSync(true);
+  };
 
   /* =========================================================
      BOOT
