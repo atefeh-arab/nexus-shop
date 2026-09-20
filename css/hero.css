@@ -16,11 +16,11 @@
   height:100vh;width:100%;
   overflow:hidden;
   background:
-    radial-gradient(ellipse 90% 60% at 50% 55%, rgba(30,60,120,.35), transparent 60%),
-    radial-gradient(ellipse 60% 40% at 50% 100%, rgba(10,20,50,.9), transparent 70%),
-    linear-gradient(180deg, #05070d 0%, #0a1020 45%, #0b1428 100%);
+    radial-gradient(ellipse 80% 55% at 34% 22%, rgba(255,178,102,.10), transparent 62%),
+    radial-gradient(ellipse 60% 40% at 50% 100%, rgba(16,10,4,.92), transparent 70%),
+    linear-gradient(180deg, #0a0806 0%, #100b07 45%, #0b0906 100%);
 }
-/* ---- scenic backdrop: night sky, aurora, mountain silhouette ---- */
+/* ---- cinematic backdrop: warm studio desk, blinds, dust motes ---- */
 .hero-bg{
   position:absolute;inset:0;z-index:0;pointer-events:none;
   opacity:0;
@@ -28,20 +28,21 @@
 }
 .hero-bg.on{opacity:1}
 .hero-bg svg{width:100%;height:100%;display:block}
-/* stars twinkle */
-.hero-bg .star{animation:twinkle 4s ease-in-out infinite}
-.hero-bg .star:nth-child(2n){animation-delay:1.3s}
-.hero-bg .star:nth-child(3n){animation-delay:2.2s}
-.hero-bg .star:nth-child(5n){animation-delay:3.1s}
-@keyframes twinkle{0%,100%{opacity:.35}50%{opacity:1}}
-/* slow aurora drift */
-.hero-bg .aurora{animation:auroraDrift 26s ease-in-out infinite alternate;transform-origin:center}
-@keyframes auroraDrift{
-  0%{transform:translateX(-40px) scale(1)}
-  100%{transform:translateX(40px) scale(1.12)}
+/* floating dust motes drift in the light beam */
+.hero-bg .mote{
+  animation:moteDrift 11s ease-in-out infinite alternate;
+  opacity:.5;
+}
+.hero-bg .mote:nth-child(2n){animation-delay:-3.5s;animation-duration:14s}
+.hero-bg .mote:nth-child(3n){animation-delay:-6.5s;animation-duration:17s}
+.hero-bg .mote:nth-child(5n){animation-delay:-9s;animation-duration:20s}
+@keyframes moteDrift{
+  0%{transform:translate(0,0);opacity:.25}
+  50%{opacity:.85}
+  100%{transform:translate(26px,-34px);opacity:.3}
 }
 @media (prefers-reduced-motion: reduce){
-  .hero-bg .star,.hero-bg .aurora{animation:none}
+  .hero-bg .mote{animation:none}
 }
 
 /* grain */
@@ -216,7 +217,7 @@
 .screen{
   position:absolute;inset:0;
   background:
-    radial-gradient(ellipse 80% 60% at 50% 30%, #17223a 0%, #0a1226 60%, #05070d 100%);
+    radial-gradient(ellipse 80% 60% at 50% 30%, #1a2033 0%, #101527 60%, #07080f 100%);
   opacity:0;
   will-change:opacity, filter;
   filter: brightness(.85);
