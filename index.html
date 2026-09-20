@@ -20,83 +20,136 @@
 <section class="hero-scroll" id="heroScroll">
   <div class="hero-stage" id="heroStage">
 
-    <!-- cinematic studio-desk backdrop behind the laptop -->
+    <!-- warm study-room backdrop behind the laptop (shelf, LED strip,
+         globe, books, desk lamp — inspired by the reference photo) -->
     <div class="hero-bg" id="heroBg" aria-hidden="true">
       <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="room" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#0d0906"/>
-            <stop offset=".55" stop-color="#120d08"/>
+            <stop offset="0" stop-color="#0e0a07"/>
+            <stop offset=".5" stop-color="#140e08"/>
             <stop offset="1" stop-color="#070503"/>
           </linearGradient>
-          <radialGradient id="keylight" cx=".34" cy=".2" r=".7">
-            <stop offset="0" stop-color="rgba(255,190,110,.22)"/>
-            <stop offset=".4" stop-color="rgba(255,170,90,.09)"/>
-            <stop offset="1" stop-color="rgba(255,160,80,0)"/>
-          </radialGradient>
-          <linearGradient id="beam" x1="0" y1="0" x2=".6" y2="1">
-            <stop offset="0" stop-color="rgba(255,195,125,.14)"/>
-            <stop offset="1" stop-color="rgba(255,175,95,0)"/>
+          <linearGradient id="shelffront" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#241811"/>
+            <stop offset="1" stop-color="#160e08"/>
           </linearGradient>
+          <linearGradient id="ledglow" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="rgba(255,190,120,.85)"/>
+            <stop offset="1" stop-color="rgba(255,180,110,0)"/>
+          </linearGradient>
+          <radialGradient id="lampglow" cx=".5" cy=".5" r=".5">
+            <stop offset="0" stop-color="rgba(255,214,150,.95)"/>
+            <stop offset=".35" stop-color="rgba(255,196,130,.4)"/>
+            <stop offset="1" stop-color="rgba(255,190,120,0)"/>
+          </radialGradient>
+          <radialGradient id="warmfill" cx=".42" cy=".24" r=".8">
+            <stop offset="0" stop-color="rgba(255,185,110,.20)"/>
+            <stop offset=".5" stop-color="rgba(255,175,100,.09)"/>
+            <stop offset="1" stop-color="rgba(255,170,90,0)"/>
+          </radialGradient>
           <linearGradient id="desk" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#1c130a"/>
-            <stop offset=".28" stop-color="#100a06"/>
-            <stop offset="1" stop-color="#040302"/>
+            <stop offset="0" stop-color="#1e130b"/>
+            <stop offset=".3" stop-color="#110b06"/>
+            <stop offset="1" stop-color="#050302"/>
           </linearGradient>
           <radialGradient id="pool" cx=".5" cy=".5" r=".5">
-            <stop offset="0" stop-color="rgba(255,180,100,.13)"/>
+            <stop offset="0" stop-color="rgba(255,180,100,.14)"/>
             <stop offset="1" stop-color="rgba(255,180,100,0)"/>
           </radialGradient>
-          <radialGradient id="vig" cx=".5" cy=".42" r=".75">
+          <radialGradient id="vig" cx=".5" cy=".42" r=".78">
             <stop offset="0" stop-color="rgba(0,0,0,0)"/>
-            <stop offset=".7" stop-color="rgba(0,0,0,.18)"/>
-            <stop offset="1" stop-color="rgba(0,0,0,.6)"/>
+            <stop offset=".7" stop-color="rgba(0,0,0,.16)"/>
+            <stop offset="1" stop-color="rgba(0,0,0,.58)"/>
           </radialGradient>
-          <filter id="soft1" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="12"/></filter>
-          <filter id="soft2" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="6"/></filter>
+          <linearGradient id="globe1" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#2c2013"/>
+            <stop offset="1" stop-color="#171009"/>
+          </linearGradient>
+          <linearGradient id="bookgold" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#4d3820"/>
+            <stop offset="1" stop-color="#2b1d12"/>
+          </linearGradient>
+          <filter id="softa" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="10"/></filter>
+          <filter id="softb" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="5"/></filter>
         </defs>
 
         <rect width="1440" height="900" fill="url(#room)"/>
+        <rect width="1440" height="900" fill="url(#warmfill)"/>
 
-        <!-- window blinds, upper-left, leaking warm light -->
-        <g transform="translate(28,36)" opacity=".85">
-          <rect x="0" y="0" width="310" height="400" rx="8" fill="#0b0805" stroke="rgba(255,190,120,.08)"/>
-          <g fill="rgba(255,200,140,.07)">
-            <rect x="10" y="16" width="290" height="30" rx="4"/>
-            <rect x="10" y="62" width="290" height="30" rx="4" opacity=".8"/>
-            <rect x="10" y="108" width="290" height="30" rx="4"/>
-            <rect x="10" y="154" width="290" height="30" rx="4" opacity=".6"/>
-            <rect x="10" y="200" width="290" height="30" rx="4" opacity=".85"/>
-            <rect x="10" y="246" width="290" height="30" rx="4" opacity=".55"/>
-            <rect x="10" y="292" width="290" height="30" rx="4" opacity=".7"/>
-            <rect x="10" y="338" width="290" height="30" rx="4" opacity=".45"/>
-          </g>
+        <!-- ============ back wall shelf with warm LED strip ============ -->
+        <!-- LED strip glow behind the shelf -->
+        <rect x="300" y="256" width="960" height="90" fill="url(#ledglow)" opacity=".65"/>
+        <!-- shelf underside light band -->
+        <rect x="320" y="272" width="920" height="10" rx="5" fill="rgba(255,206,140,.95)" filter="url(#softb)"/>
+        <!-- shelf board -->
+        <rect x="300" y="282" width="960" height="26" rx="6" fill="url(#shelffront)"/>
+        <rect x="300" y="282" width="960" height="3" fill="rgba(255,210,150,.28)"/>
+        <!-- second lower shelf -->
+        <rect x="300" y="470" width="960" height="24" rx="6" fill="url(#shelffront)" opacity=".9"/>
+        <rect x="320" y="462" width="920" height="8" rx="4" fill="rgba(255,205,135,.55)" filter="url(#softb)"/>
+
+        <!-- items on the upper shelf (kept near the center so they survive
+             the mobile crop of the wide viewBox) -->
+        <!-- vertical books -->
+        <g transform="translate(500,190)">
+          <rect x="0" y="0" width="26" height="92" rx="3" fill="url(#bookgold)"/>
+          <rect x="30" y="6" width="22" height="86" rx="3" fill="#241810"/>
+          <rect x="56" y="-2" width="30" height="94" rx="3" fill="url(#bookgold)"/>
+          <rect x="90" y="10" width="20" height="82" rx="3" fill="#271a10"/>
+          <rect x="8" y="16" width="3" height="48" fill="rgba(255,210,140,.6)"/>
+          <rect x="64" y="20" width="3" height="42" fill="rgba(255,210,140,.45)"/>
+        </g>
+        <!-- globe on a stand (center-left) -->
+        <g transform="translate(610,116)">
+          <circle cx="46" cy="70" r="64" fill="url(#globe1)"/>
+          <circle cx="46" cy="70" r="64" fill="none" stroke="rgba(255,205,135,.22)" stroke-width="1.5"/>
+          <path d="M 12 48 C 34 34, 62 36, 84 54 C 70 76, 44 84, 20 74 Z" fill="rgba(255,196,120,.20)"/>
+          <path d="M 16 96 C 40 108, 68 104, 88 88 C 78 110, 48 122, 24 112 Z" fill="rgba(255,196,120,.14)"/>
+          <ellipse cx="46" cy="70" rx="64" ry="14" fill="none" stroke="rgba(255,210,150,.22)" transform="rotate(-18 46 70)"/>
+          <path d="M46 134 L 40 164 L 56 164 Z" fill="#1d140b"/>
+          <ellipse cx="48" cy="166" rx="36" ry="7" fill="#170f09"/>
+        </g>
+        <!-- dark cylinder vessel (center-right) -->
+        <g transform="translate(830,176)">
+          <rect x="0" y="0" width="92" height="106" rx="10" fill="#1a130b"/>
+          <ellipse cx="46" cy="4" rx="46" ry="9" fill="#2a1e12"/>
+          <rect x="10" y="14" width="10" height="78" rx="5" fill="rgba(255,205,135,.12)"/>
+        </g>
+        <!-- small plant right of the vessel -->
+        <g transform="translate(1000,166)" fill="#16290f">
+          <path d="M0 114 C 8 72, 4 42, 26 18 C 24 54, 34 74, 40 114 Z"/>
+          <path d="M40 114 C 44 78, 58 56, 84 42 C 70 74, 62 94, 56 114 Z"/>
+          <path d="M-14 114 C -12 84, -20 62, -34 50 C -22 78, -16 94, -4 114 Z"/>
+          <rect x="-18" y="112" width="116" height="16" rx="4" fill="#211509"/>
         </g>
 
-        <!-- warm key light + slanted beam -->
-        <rect width="1440" height="900" fill="url(#keylight)"/>
-        <polygon points="150,110 360,60 980,780 380,840" fill="url(#beam)" opacity=".55"/>
+        <!-- ============ desk lamp, upper right ============ -->
+        <g transform="translate(1265,40)">
+          <path d="M40 0 L 96 66 L 4 66 Z" fill="#241811" transform="rotate(14 50 30)"/>
+          <ellipse cx="52" cy="70" rx="30" ry="10" fill="rgba(255,220,160,.9)" filter="url(#softb)"/>
+          <circle cx="52" cy="88" r="150" fill="url(#lampglow)" opacity=".5"/>
+          <rect x="46" y="64" width="12" height="190" rx="6" fill="#1c130c" transform="rotate(-8 52 70)"/>
+          <ellipse cx="34" cy="258" rx="40" ry="10" fill="#180f09"/>
+        </g>
 
-        <!-- desk surface -->
+        <!-- ============ desk surface ============ -->
         <rect y="642" width="1440" height="258" fill="url(#desk)"/>
-        <rect y="642" width="1440" height="2" fill="rgba(255,195,125,.12)"/>
-        <ellipse cx="720" cy="706" rx="460" ry="64" fill="url(#pool)"/>
+        <rect y="642" width="1440" height="2" fill="rgba(255,195,125,.14)"/>
+        <ellipse cx="720" cy="708" rx="470" ry="66" fill="url(#pool)"/>
 
-        <!-- plant silhouettes (dark, softly blurred) -->
-        <g filter="url(#soft1)" fill="#070a04">
-          <path d="M-30 900 C 40 720, 30 620, 130 520 C 120 640, 150 700, 170 780 C 120 820, 60 870, -30 900 Z"/>
-          <path d="M-60 900 C 30 780, 90 740, 210 700 C 140 780, 90 850, 40 900 Z"/>
-          <path d="M120 900 C 150 800, 210 760, 300 730 C 240 800, 200 860, 180 900 Z"/>
-          <ellipse cx="70" cy="560" rx="90" ry="26" transform="rotate(-38 70 560)"/>
-          <ellipse cx="160" cy="620" rx="100" ry="24" transform="rotate(-14 160 620)"/>
-        </g>
-        <g filter="url(#soft2)" fill="#080a05" opacity=".9">
-          <path d="M1470 900 C 1400 760, 1410 680, 1330 600 C 1345 700, 1320 760, 1300 820 C 1350 860, 1420 880, 1470 900 Z"/>
-          <ellipse cx="1370" cy="660" rx="80" ry="22" transform="rotate(30 1370 660)"/>
-          <ellipse cx="1300" cy="740" rx="70" ry="20" transform="rotate(10 1300 740)"/>
+        <!-- pen cup on the desk, far left -->
+        <g transform="translate(120,470)" opacity=".92">
+          <rect x="0" y="40" width="86" height="96" rx="12" fill="#151009"/>
+          <path d="M16 40 L 22 -34" stroke="#0e0a06" stroke-width="7" stroke-linecap="round"/>
+          <path d="M38 40 L 40 -44" stroke="#14100a" stroke-width="7" stroke-linecap="round"/>
+          <path d="M60 40 L 56 -28" stroke="#0f0b07" stroke-width="7" stroke-linecap="round"/>
+          <circle cx="22" cy="-36" r="4" fill="rgba(255,205,140,.55)"/>
+          <circle cx="40" cy="-46" r="4" fill="rgba(255,205,140,.4)"/>
+          <circle cx="56" cy="-30" r="4" fill="rgba(255,205,140,.45)"/>
         </g>
 
-        <!-- floating dust motes in the light -->
+        <!-- floating dust motes in the warm light -->
         <g fill="#ffd9a0">
           <circle class="mote" cx="430" cy="260" r="1.6"/>
           <circle class="mote" cx="520" cy="380" r="1.1"/>
