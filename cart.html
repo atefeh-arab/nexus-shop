@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>سبد خرید — نکسوس</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26'><rect x='1' y='1' width='24' height='24' rx='7' fill='%230a1020' stroke='%237cc4ff' stroke-width='2'/><path d='M8 17.5V9l5 5.4L18 9v8.5' stroke='%237cc4ff' stroke-width='2.2' fill='none' stroke-linecap='round'/></svg>">
+</head>
+<body>
+
+<main class="section container" style="padding-top:calc(var(--nav-h) + 40px)">
+  <div class="page-head">
+    <div>
+      <div class="eyebrow">Checkout</div>
+      <h1>سبد خرید شما</h1>
+    </div>
+    <a href="index.html#store" class="btn btn-ghost btn-sm">ادامه خرید</a>
+  </div>
+
+  <div class="cart-layout" id="cartLayout">
+    <!-- items -->
+    <div class="cart-items" id="cartItems"></div>
+
+    <!-- summary + form -->
+    <aside class="cart-side">
+      <div class="panel summary">
+        <h3>خلاصه سفارش</h3>
+        <div class="sum-row"><span>تعداد اقلام</span><b id="sumCount">۰</b></div>
+        <div class="sum-row"><span>جمع کالاها</span><b id="sumTotal">۰ تومان</b></div>
+        <div class="sum-row"><span>هزینه ارسال</span><b class="free">رایگان</b></div>
+        <div class="sum-row total"><span>مبلغ قابل پرداخت</span><b id="sumGrand">۰ تومان</b></div>
+        <div class="pay-guide">
+          <div class="pg-head" id="pgHead">واریز به کارت زیر:</div>
+          <div class="pg-card" dir="ltr" id="pgCard">6037-9917-XXXX-XXXX</div>
+          <div class="pg-row"><span>به نام:</span><b>شرکت نکسوس دیجیتال</b></div>
+          <div class="pg-row"><span>شماره سفارش:</span><b id="pgOrderNo">پس از ثبت مشخصات</b></div>
+        </div>
+      </div>
+
+      <div class="panel form-panel" id="formPanel">
+        <h3>مشخصات گیرنده</h3>
+        <form id="checkoutForm" novalidate>
+          <div class="field-row">
+            <div class="field">
+              <label>نام و نام خانوادگی <span class="req">*</span></label>
+              <input type="text" name="fullname" placeholder="مثلاً: سارا محمدی" autocomplete="name">
+            </div>
+            <div class="field">
+              <label>شماره موبایل <span class="req">*</span></label>
+              <input type="tel" name="phone" placeholder="09xxxxxxxxx" inputmode="tel" autocomplete="tel" dir="ltr" style="text-align:left">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>شهر <span class="req">*</span></label>
+              <input type="text" name="city" placeholder="مثلاً: تهران">
+            </div>
+            <div class="field">
+              <label>کد پستی <span class="req">*</span></label>
+              <input type="text" name="postal" placeholder="۱۰ رقمی" inputmode="numeric" dir="ltr" style="text-align:left">
+            </div>
+          </div>
+          <div class="field">
+            <label>آدرس کامل پستی <span class="req">*</span></label>
+            <textarea name="address" rows="3" placeholder="خیابان، کوچه، پلاک، واحد…"></textarea>
+          </div>
+          <div class="field">
+            <label>توضیحات سفارش (اختیاری)</label>
+            <textarea name="note" rows="2" placeholder="هر نکته‌ای که باید بدانیم…"></textarea>
+          </div>
+
+          <div class="field">
+            <label>فیش واریزی <span class="req">*</span></label>
+            <div class="file-drop" id="receiptDrop" tabindex="0" role="button" aria-label="بارگذاری فیش واریزی">
+              <input type="file" id="receiptInput" accept="image/*" hidden>
+              <div class="fd-ico" id="fdIco"></div>
+              <div class="fd-title">فیش واریزی را اینجا رها کنید یا کلیک کنید</div>
+              <div class="fd-sub">JPG / PNG · حداکثر ۵ مگابایت</div>
+            </div>
+            <div class="file-preview" id="receiptPreview">
+              <img id="rpImg" alt="پیش‌نمایش فیش">
+              <div class="fp-meta">
+                <div class="fp-name" id="rpName"></div>
+                <div class="fp-size" id="rpSize"></div>
+              </div>
+              <button type="button" class="fp-x" id="rpX" aria-label="حذف فایل">×</button>
+            </div>
+            <div class="hint">پس از ثبت، فیش برای پنل مدیریت ارسال و توسط کارشناسان بررسی می‌شود.</div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg btn-block" id="submitBtn">
+            ثبت نهایی سفارش
+          </button>
+        </form>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<!-- success overlay -->
+<div class="success-overlay" id="successOverlay">
+  <div class="success-card">
+    <div class="s-ico" id="sIco"></div>
+    <h2>سفارش شما ثبت شد!</h2>
+    <p class="s-sub">کد رهگیری سفارش:</p>
+    <div class="s-code" dir="ltr" id="sCode">NX-0000</div>
+    <p class="s-note">
+      اسکرین‌شات این کد را نگه دارید. کارشناسان ما حداکثر تا ۲ ساعت کاری
+      فیش واریزی شما را بررسی و برای هماهنگی ارسال تماس می‌گیرند.
+    </p>
+    <div class="s-actions">
+      <a href="index.html#store" class="btn btn-ghost">بازگشت به فروشگاه</a>
+      <button class="btn btn-primary" id="sClose">باشه</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/store.js"></script>
+<script src="js/app.js"></script>
+<script src="js/cart.js"></script>
+</body>
+</html>

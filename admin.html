@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>پنل مدیریت — نکسوس</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/admin.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26'><rect x='1' y='1' width='24' height='24' rx='7' fill='%230a1020' stroke='%237cc4ff' stroke-width='2'/><path d='M8 17.5V9l5 5.4L18 9v8.5' stroke='%237cc4ff' stroke-width='2.2' fill='none' stroke-linecap='round'/></svg>">
+</head>
+<body class="admin-body">
+
+<!-- ============ LOCK SCREEN ============ -->
+<div class="lock-overlay" id="lockOverlay" hidden>
+  <div class="lock-card">
+    <div class="lock-ico" id="lockIco"></div>
+    <h2>پنل مدیریت نکسوس</h2>
+    <p>برای ورود، رمز عبور را وارد کنید.</p>
+    <form id="lockForm">
+      <div class="field">
+        <input type="password" id="lockPass" placeholder="رمز عبور" autocomplete="current-password" dir="ltr" style="text-align:center">
+      </div>
+      <div class="lock-error" id="lockError" hidden>رمز عبور اشتباه است.</div>
+      <button type="submit" class="btn btn-primary btn-lg btn-block">ورود به پنل</button>
+    </form>
+    <div class="lock-hint">رمز پیش‌فرض: <b dir="ltr">nexus1405</b> (قابل تغییر از تب تنظیمات)</div>
+  </div>
+</div>
+
+<main class="section container" id="adminMain" style="padding-top:calc(var(--nav-h) + 40px)" hidden>
+  <div class="page-head">
+    <div>
+      <div class="eyebrow">Admin Panel</div>
+      <h1>پنل مدیریت نکسوس</h1>
+    </div>
+    <div class="admin-stats" id="adminStats"></div>
+  </div>    <div class="admin-tabs">
+    <button class="admin-tab active" data-tab="orders">
+      <span id="tabOrdersIco"></span> سفارش‌ها <span class="tab-count" id="ordersCount">۰</span>
+    </button>
+    <button class="admin-tab" data-tab="products">
+      <span id="tabProductsIco"></span> محصولات <span class="tab-count" id="productsCount">۰</span>
+    </button>
+    <button class="admin-tab" data-tab="chats">
+      <span id="tabChatsIco"></span> پیام‌های پشتیبانی <span class="tab-count tab-count-amber" id="chatsCount">۰</span>
+    </button>
+    <button class="admin-tab" data-tab="settings">
+      <span id="tabSettingsIco"></span> تنظیمات
+    </button>
+    <button class="admin-tab admin-logout" id="logoutBtn" title="خروج از پنل">
+      <span id="logoutIco"></span> خروج
+    </button>
+  </div>
+
+  <!-- ============ ORDERS TAB ============ -->
+  <section id="tab-orders" class="tab-panel">
+    <div class="admin-toolbar">
+      <div class="chips" id="orderFilters" style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="chip active" data-f="all">همه</button>
+        <button class="chip" data-f="pending">در انتظار تایید</button>
+        <button class="chip" data-f="confirmed">تایید شده</button>
+        <button class="chip" data-f="shipped">ارسال شده</button>
+        <button class="chip" data-f="delivered">تحویل شده</button>
+        <button class="chip" data-f="rejected">رد شده</button>
+      </div>
+    </div>
+    <div id="ordersList"></div>
+  </section>
+
+  <!-- ============ PRODUCTS TAB ============ -->
+  <section id="tab-products" class="tab-panel" hidden>
+    <div class="admin-toolbar">
+      <button class="btn btn-primary" id="newProductBtn"><span id="npIco"></span> افزودن محصول جدید</button>
+    </div>
+    <div class="product-grid" id="adminProducts"></div>
+  </section>
+
+  <!-- ============ CHATS TAB ============ -->
+  <section id="tab-chats" class="tab-panel" hidden>
+    <div class="admin-chat-layout">
+      <div class="threads-list" id="threadsList"></div>
+      <div class="thread-view" id="threadView">
+        <div class="empty-state">
+          <div class="es-ico" id="tvEmptyIco"></div>
+          <h3>یک گفتگو را انتخاب کنید</h3>
+          <p>پیام‌های ارسالی کاربران از ویجت پشتیبانی اینجا نمایش داده می‌شود.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SETTINGS TAB ============ -->
+  <section id="tab-settings" class="tab-panel" hidden>
+    <div class="panel" style="max-width:520px">
+      <h3>تغییر رمز عبور پنل</h3>
+      <form id="passForm">
+        <div class="field">
+          <label>رمز فعلی</label>
+          <input type="password" name="current" autocomplete="current-password" dir="ltr">
+        </div>
+        <div class="field">
+          <label>رمز جدید (حداقل ۶ کاراکتر)</label>
+          <input type="password" name="next" autocomplete="new-password" dir="ltr">
+        </div>
+        <div class="field">
+          <label>تکرار رمز جدید</label>
+          <input type="password" name="confirm" autocomplete="new-password" dir="ltr">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">ذخیره رمز جدید</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<!-- ============ PRODUCT FORM MODAL ============ -->
+<div class="modal-overlay" id="productFormOverlay">
+  <div class="modal" style="width:min(640px,100%)">
+    <button class="modal-close" data-close aria-label="بستن" id="pfClose"></button>
+    <div style="padding:34px 34px 36px">
+      <h3 style="font-size:19px;font-weight:800;margin-bottom:22px" id="pfTitle">افزودن محصول جدید</h3>
+      <form id="productForm" novalidate>
+        <div class="field-row">
+          <div class="field">
+            <label>نام فارسی <span class="req">*</span></label>
+            <input type="text" name="name_fa" placeholder="مثلاً: لپ‌تاپ نکسوس پرو ۱۶">
+          </div>
+          <div class="field">
+            <label>نام لاتین</label>
+            <input type="text" name="name" placeholder="Nexus Pro 16" dir="ltr" style="text-align:left">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>دسته‌بندی <span class="req">*</span></label>
+            <select name="category" class="field-select">
+              <option value="laptop">لپ‌تاپ</option>
+              <option value="pc">کامپیوتر رومیزی</option>
+              <option value="acc">لوازم جانبی</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>برچسب (اختیاری)</label>
+            <input type="text" name="badge" placeholder="مثلاً: جدید، پرفروش، تخفیف‌دار">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>قیمت (تومان) <span class="req">*</span></label>
+            <input type="text" name="price" inputmode="numeric" placeholder="89000000" dir="ltr" style="text-align:left">
+          </div>
+          <div class="field">
+            <label>قیمت قبل از تخفیف (اختیاری)</label>
+            <input type="text" name="oldPrice" inputmode="numeric" placeholder="0" dir="ltr" style="text-align:left">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>موجودی انبار</label>
+            <input type="text" name="stock" inputmode="numeric" placeholder="10" dir="ltr" style="text-align:left">
+          </div>
+          <div class="field">
+            <label>امتیاز (۰ تا ۵)</label>
+            <input type="text" name="rating" inputmode="decimal" placeholder="4.8" dir="ltr" style="text-align:left">
+          </div>
+        </div>
+        <div class="field">
+          <label>توضیحات کامل <span class="req">*</span></label>
+          <textarea name="desc" rows="4" placeholder="توضیح کامل محصول، کاربردها و مزایا…"></textarea>
+        </div>
+        <div class="field">
+          <label>ویژگی‌های کلیدی (هر خط یک مورد)</label>
+          <textarea name="highlights" rows="3" placeholder="بدنه آلومینیوم یکپارچه&#10;نمایشگر 240 هرتز&#10;شارژ سریع 140 وات"></textarea>
+        </div>
+        <div class="field">
+          <label>مشخصات فنی (هر خط: عنوان : مقدار)</label>
+          <textarea name="specs" rows="4" placeholder="پردازنده : Intel Core i9-14900HX&#10;گرافیک : NVIDIA RTX 5080&#10;حافظه رم : 32GB DDR5"></textarea>
+        </div>
+        <div class="field">
+          <label>تصویر محصول <span class="req">*</span></label>
+          <div class="file-drop" id="pfDrop" tabindex="0" role="button">
+            <input type="file" id="pfInput" accept="image/*" hidden>
+            <div class="fd-ico" id="pfIco"></div>
+            <div class="fd-title">تصویر را اینجا رها کنید یا کلیک کنید</div>
+            <div class="fd-sub">JPG / PNG / WEBP · حداکثر ۴ مگابایت</div>
+          </div>
+          <div class="file-preview" id="pfPreview">
+            <img id="pfImg" alt="پیش‌نمایش">
+            <div class="fp-meta">
+              <div class="fp-name" id="pfName"></div>
+              <div class="fp-size" id="pfSize"></div>
+            </div>
+            <button type="button" class="fp-x" id="pfX" aria-label="حذف">×</button>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg btn-block" id="pfSubmit">ذخیره محصول</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ============ ORDER DETAIL MODAL ============ -->
+<div class="modal-overlay" id="orderModal">
+  <div class="modal" style="width:min(720px,100%)">
+    <button class="modal-close" data-close aria-label="بستن" id="omClose"></button>
+    <div id="orderModalBody" style="padding:34px 34px 36px"></div>
+  </div>
+</div>
+
+<script src="js/store.js"></script>
+<script src="js/app.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

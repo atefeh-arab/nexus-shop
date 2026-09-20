@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>نکسوس — فروشگاه تخصصی لپ‌تاپ و کامپیوتر</title>
+<meta name="description" content="فروشگاه تخصصی لپ‌تاپ و کامپیوتر نکسوس — خرید لپ‌تاپ گیمینگ، ایستگاه کاری و لوازم جانبی با ضمانت اصالت کالا." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/hero.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26'><rect x='1' y='1' width='24' height='24' rx='7' fill='%230a1020' stroke='%237cc4ff' stroke-width='2'/><path d='M8 17.5V9l5 5.4L18 9v8.5' stroke='%237cc4ff' stroke-width='2.2' fill='none' stroke-linecap='round'/></svg>">
+<script src="js/vendor/gsap.min.js"></script>
+<script src="js/vendor/ScrollTrigger.min.js"></script>
+</head>
+<body>
+
+<!-- ============ HERO: LAPTOP OPENS ON SCROLL ============ -->
+<section class="hero-scroll" id="heroScroll">
+  <div class="hero-stage" id="heroStage">
+
+    <div class="hero-copy top" id="heroTop">
+      <div class="hero-eyebrow">N E X U S &nbsp;·&nbsp; ۱۴۰۵</div>
+      <h1 class="hero-headline">
+        تکنولوژی، <em>دقیقاً</em> همان چیزی که می‌خواهی.
+      </h1>
+      <div class="hero-sub">لپ‌تاپ را با اسکرول باز کن ⌄</div>
+    </div>
+
+    <div class="scene" id="scene">
+      <div class="camera" id="camera">
+        <div class="glow" id="glow"></div>
+        <div class="laptop" id="laptop">
+          <div class="lid" id="lid">
+            <div class="lid-back"></div>
+            <div class="lid-logo">NEXUS</div>
+            <div class="lid-front">
+              <div class="bezel">
+                <div class="notch"></div>
+                <div class="screen" id="screen">
+                  <div class="ui" id="ui">
+                    <div class="ui-top">
+                      <div>NEXUS OS 26.1</div>
+                      <div>SYSTEM ONLINE <span class="dot"></span></div>
+                    </div>
+                    <div class="ui-title">
+                      قدرت خام. <span>سکوت مطلق.</span>
+                    </div>
+                    <div class="ui-grid" id="uiGrid">
+                      <div class="spec"><div class="label">CPU</div><div class="value">Core i9</div><div class="sub">14th gen · 24 cores</div></div>
+                      <div class="spec"><div class="label">GPU</div><div class="value">RTX 5080</div><div class="sub">16 GB GDDR7</div></div>
+                      <div class="spec"><div class="label">RAM</div><div class="value">32 GB</div><div class="sub">DDR5 · 7200 MHz</div></div>
+                      <div class="spec"><div class="label">SSD</div><div class="value">2 TB</div><div class="sub">NVMe Gen 5</div></div>
+                    </div>
+                    <div class="ui-foot">
+                      <div>0.42s boot</div>
+                      <div>—</div>
+                      <div>silent mode</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="base">
+            <div class="base-top"></div>
+            <div class="deck">
+              <div class="brandmark">NEXUS</div>
+              <div class="keyboard" id="keyboard"></div>
+              <div class="trackpad"></div>
+            </div>
+          </div>
+        </div>
+        <div class="shadow"></div>
+      </div>
+    </div>
+
+    <div class="hero-copy bot" id="heroBot">
+      <div class="scroll-hint">
+        <span>برای ورود به فروشگاه اسکرول کنید</span>
+        <span class="line"></span>
+      </div>
+    </div>
+
+    <div class="rail" aria-hidden="true">
+      <div>00</div>
+      <div class="track"><div class="bar" id="railBar"></div></div>
+      <div id="railNum">05</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ STORE ============ -->
+<main class="store-over" id="store">
+  <section class="section container" id="storeSection">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">The Collection · پاییز ۱۴۰۵</div>
+        <h2>ماشین‌هایی که <em>می‌فهمند</em> چه می‌خواهی.</h2>
+      </div>
+      <p>
+        یک خط تولید، سه دسته‌بندی. ساخته‌شده برای کسانی که ابزارشان را جدی می‌گیرند —
+        از هنرمند تا مهندس، از استودیو تا میدان بازی.
+      </p>
+    </div>
+
+    <div class="chips" id="catChips" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px">
+      <button class="chip active" data-cat="all">همه محصولات</button>
+      <button class="chip" data-cat="laptop">لپ‌تاپ</button>
+      <button class="chip" data-cat="pc">کامپیوتر رومیزی</button>
+      <button class="chip" data-cat="acc">لوازم جانبی</button>
+    </div>
+
+    <div class="product-grid" id="productGrid"></div>
+  </section>
+
+  <!-- trust strip -->
+  <section class="section container">
+    <div class="trust-strip">
+      <div class="trust-item reveal">
+        <div class="t-ico" data-ico="shield"></div>
+        <div><b>ضمانت اصالت کالا</b><span>تمام محصولات اورجینال با گارانتی رسمی شرکتی</span></div>
+      </div>
+      <div class="trust-item reveal">
+        <div class="t-ico" data-ico="truck"></div>
+        <div><b>ارسال سریع و بیمه‌شده</b><span>تهران همان روز، شهرستان ۲۴ تا ۷۲ ساعت</span></div>
+      </div>
+      <div class="trust-item reveal">
+        <div class="t-ico" data-ico="headset"></div>
+        <div><b>پشتیبانی تخصصی</b><span>مشاوره خرید و نصب رایگان توسط کارشناسان</span></div>
+      </div>
+      <div class="trust-item reveal">
+        <div class="t-ico" data-ico="doc"></div>
+        <div><b>۷ روز مهلت بازگشت</b><span>بدون قید و شرط، حتی اگر فقط نظرتان عوض شد</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA banner -->
+  <section class="section container">
+    <div class="cta-banner reveal">
+      <div class="cta-glow"></div>
+      <div class="cta-content">
+        <div class="eyebrow">سفارش‌های حضوری و تلفنی</div>
+        <h2>سخت‌افزار بعدی‌تان را <em>حضوری</em> ببینید.</h2>
+        <p>
+          شوروم نکسوس در تهران میزبان شماست؛ دستگاه‌ها را روشن لمس کنید،
+          تست رنگ بگیرید و با کارشناسان ما مشورت کنید — بدون هیچ تعهدی به خرید.
+        </p>
+        <div class="cta-actions">
+          <a href="about.html#visit" class="btn btn-primary btn-lg">اطلاعات بازدید حضوری</a>
+          <a href="cart.html" class="btn btn-ghost btn-lg">مشاهده سبد خرید</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="js/store.js"></script>
+<script src="js/app.js"></script>
+<script src="js/hero.js"></script>
+<script>
+/* ---- render products with category filter ---- */
+(function () {
+  const S = window.NexusStore, UI = window.NexusUI;
+  const grid = document.getElementById('productGrid');
+
+  function render(cat) {
+    grid.innerHTML = '';
+    const list = S.getProducts().filter((p) => cat === 'all' || p.category === cat);
+    list.forEach((p) => grid.append(UI.productCard(p)));
+    if (!list.length) {
+      grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
+        <div class="es-ico">${UI.icon('box', 30)}</div>
+        <h3>محصولی در این دسته نیست</h3><p>به‌زودی مدل‌های جدید اضافه می‌شوند.</p>
+      </div>`;
+    }
+    UI.observeReveals(grid);
+  }
+
+  render('all');
+
+  document.querySelectorAll('#catChips .chip').forEach((chip) => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('#catChips .chip').forEach((c) => c.classList.remove('active'));
+      chip.classList.add('active');
+      render(chip.dataset.cat);
+    });
+  });
+
+  /* trust icons */
+  document.querySelectorAll('.trust-item .t-ico').forEach((el) => {
+    el.innerHTML = UI.icon(el.dataset.ico, 24);
+  });
+
+  /* if URL has #store, jump past the hero pin cleanly */
+  if (location.hash === '#store') {
+    setTimeout(() => document.getElementById('storeSection').scrollIntoView(), 60);
+  }
+})();
+</script>
+
+<style>
+/* ---- page-local: trust strip + cta banner ---- */
+.trust-strip{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:16px;
+}
+@media(max-width:980px){.trust-strip{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.trust-strip{grid-template-columns:1fr}}
+.trust-item{
+  display:flex;gap:14px;align-items:flex-start;
+  background:linear-gradient(180deg,var(--panel2),var(--panel));
+  border:1px solid var(--line);border-radius:18px;padding:20px;
+}
+.trust-item .t-ico{
+  width:46px;height:46px;flex:none;border-radius:14px;
+  background:rgba(124,196,255,.09);border:1px solid rgba(124,196,255,.22);
+  display:grid;place-items:center;color:var(--accent);
+}
+.trust-item b{display:block;font-size:14px;margin-bottom:5px}
+.trust-item span{font-size:12px;color:var(--ink2);line-height:1.8}
+.cta-banner{
+  position:relative;overflow:hidden;
+  border-radius:28px;border:1px solid var(--line2);
+  background:linear-gradient(120deg,#101b33 0%,#0a1020 55%,#0d1526 100%);
+  padding:clamp(34px,5vw,70px);
+}
+.cta-glow{
+  position:absolute;inset:-40%;
+  background:radial-gradient(ellipse 45% 45% at 80% 20%, rgba(124,196,255,.16), transparent 60%),
+             radial-gradient(ellipse 40% 40% at 15% 85%, rgba(244,176,106,.1), transparent 60%);
+  pointer-events:none;
+}
+.cta-content{position:relative;max-width:56ch}
+.cta-content h2{font-size:clamp(24px,3.2vw,38px);font-weight:800;margin:12px 0 14px}
+.cta-content h2 em{font-style:normal;color:var(--amber)}
+.cta-content p{color:var(--ink2);font-size:14.5px;line-height:2;margin-bottom:24px}
+.cta-actions{display:flex;gap:12px;flex-wrap:wrap}
+</style>
+</body>
+</html>
