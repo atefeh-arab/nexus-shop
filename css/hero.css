@@ -20,29 +20,36 @@
     radial-gradient(ellipse 60% 40% at 50% 100%, rgba(16,10,4,.92), transparent 70%),
     linear-gradient(180deg, #0a0806 0%, #100b07 45%, #0b0906 100%);
 }
-/* ---- cinematic backdrop: warm studio desk, blinds, dust motes ---- */
+/* ---- warm study-desk photo backdrop ---- */
 .hero-bg{
   position:absolute;inset:0;z-index:0;pointer-events:none;
   opacity:0;
   transition:opacity 1.6s ease;
+  overflow:hidden;
 }
 .hero-bg.on{opacity:1}
-.hero-bg svg{width:100%;height:100%;display:block}
-/* floating dust motes drift in the light beam */
-.hero-bg .mote{
-  animation:moteDrift 11s ease-in-out infinite alternate;
-  opacity:.5;
+/* the photo: slow Ken-Burns drift so the scene feels alive */
+.hero-bg-photo{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;object-position:center 42%;
+  transform:scale(1.08);
+  animation:kenburns 38s ease-in-out infinite alternate;
+  filter:brightness(.92) saturate(.96);
 }
-.hero-bg .mote:nth-child(2n){animation-delay:-3.5s;animation-duration:14s}
-.hero-bg .mote:nth-child(3n){animation-delay:-6.5s;animation-duration:17s}
-.hero-bg .mote:nth-child(5n){animation-delay:-9s;animation-duration:20s}
-@keyframes moteDrift{
-  0%{transform:translate(0,0);opacity:.25}
-  50%{opacity:.85}
-  100%{transform:translate(26px,-34px);opacity:.3}
+@keyframes kenburns{
+  0%{transform:scale(1.08) translate(0,0)}
+  100%{transform:scale(1.16) translate(-1.6%,-1.2%)}
+}
+/* warm tint + edge vignette for text/laptop readability */
+.hero-bg-tint{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 46%, rgba(0,0,0,0) 40%, rgba(5,3,2,.5) 100%),
+    linear-gradient(180deg, rgba(12,8,5,.42) 0%, rgba(12,8,5,.18) 42%, rgba(8,5,3,.6) 100%);
 }
 @media (prefers-reduced-motion: reduce){
-  .hero-bg .mote{animation:none}
+  .hero-bg-photo{animation:none}
 }
 
 /* grain */
