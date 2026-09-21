@@ -32,10 +32,10 @@
 .hero-bg-photo{
   position:absolute;inset:0;
   width:100%;height:100%;
-  object-fit:cover;object-position:center 38%;
+  object-fit:cover;object-position:center 42%;
   transform:scale(1.08);
   animation:kenburns 38s ease-in-out infinite alternate;
-  filter:brightness(1.02) saturate(1.05);
+  filter:brightness(1.04) saturate(1.02);
 }
 @keyframes kenburns{
   0%{transform:scale(1.08) translate(0,0)}
@@ -45,8 +45,8 @@
 .hero-bg-tint{
   position:absolute;inset:0;
   background:
-    radial-gradient(ellipse 70% 55% at 50% 46%, rgba(0,0,0,0) 40%, rgba(2,6,12,.5) 100%),
-    linear-gradient(180deg, rgba(4,10,20,.38) 0%, rgba(4,10,20,.14) 42%, rgba(2,6,12,.55) 100%);
+    radial-gradient(ellipse 72% 58% at 50% 48%, rgba(0,0,0,0) 42%, rgba(2,8,16,.46) 100%),
+    linear-gradient(180deg, rgba(4,10,22,.34) 0%, rgba(4,10,22,.10) 44%, rgba(2,6,14,.52) 100%);
 }
 @media (prefers-reduced-motion: reduce){
   .hero-bg-photo{animation:none}
