@@ -40,6 +40,9 @@
     receipt:'<svg width="__S__" height="__S__" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M5 2.8h14V21l-2.4-1.6L14.2 21l-2.2-1.6L9.8 21l-2.4-1.6L5 21z"/><path d="M9 8h6M9 12h6"/></svg>',
     camera:'<svg width="__S__" height="__S__" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.2A1.8 1.8 0 0 1 4.8 6.4h2.5L9 4h6l1.7 2.4h2.5A1.8 1.8 0 0 1 21 8.2v10A1.8 1.8 0 0 1 19.2 20H4.8A1.8 1.8 0 0 1 3 18.2z"/><circle cx="12" cy="13" r="3.6"/></svg>',
     info: '<svg width="__S__" height="__S__" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.4M12 7.6v.2"/></svg>',
+    cpu: '<svg width="__S__" height="__S__" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><path d="M9 2.8v3.2M15 2.8v3.2M9 18v3.2M15 18v3.2M2.8 9h3.2M2.8 15h3.2M18 9h3.2M18 15h3.2"/></svg>',
+    wallet:'<svg width="__S__" height="__S__" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2.6"/><path d="M3 10h18M16.4 14.6h.2"/><path d="M17 6V4.8a1.8 1.8 0 0 0-2.2-1.75L5.4 5.2"/></svg>',
+    lock: '<svg width="__S__" height="__S__" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10" width="15" height="10.5" rx="2.4"/><path d="M8 10V7.6a4 4 0 0 1 8 0V10"/><circle cx="12" cy="15.2" r="1.4"/></svg>',
   };
 
   function icon(name, size) {
