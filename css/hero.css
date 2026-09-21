@@ -76,6 +76,7 @@
 .hero-copy.top{top:calc(max(56px, 4vh) + 10px)}
 .hero-copy.bot{bottom:5vh}
 .hero-eyebrow{
+  font-family:'AzarMehr Mono','Estedad',system-ui,sans-serif;
   font-size:11px;letter-spacing:.35em;text-transform:uppercase;
   color:var(--ink3);font-weight:500;margin-bottom:16px;
 }
@@ -264,6 +265,7 @@
   opacity:0;transform:translateY(8px);
 }
 .spec .label{
+  font-family:'AzarMehr Mono','Estedad',system-ui,sans-serif;
   font-size:.68vw;color:rgba(180,200,240,.55);letter-spacing:.22em;text-transform:uppercase;
 }
 .spec .value{
