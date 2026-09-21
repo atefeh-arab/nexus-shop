@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="fonts/fonts.css?v=1">
-<link rel="stylesheet" href="css/styles.css?v=8">
+<link rel="stylesheet" href="css/styles.css?v=9">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26'><rect x='1' y='1' width='24' height='24' rx='7' fill='%230a1020' stroke='%237cc4ff' stroke-width='2'/><path d='M8 17.5V9l5 5.4L18 9v8.5' stroke='%237cc4ff' stroke-width='2.2' fill='none' stroke-linecap='round'/></svg>">
 </head>
 <body>
@@ -369,7 +369,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('licBadge').innerHTML = UI.icon('shield', 34);
   UI.observeReveals();
 
-  /* ---- products showcase (real store items) ---- */
+  /* ---- products showcase (real store items — poster grid) ---- */
   const showcase = document.getElementById('abShowcase');
   if (showcase) {
     const picks = [
@@ -385,14 +385,21 @@ document.addEventListener('DOMContentLoaded', () => {
       card.className = 'show-card reveal';
       card.href = 'index.html#store';
       card.innerHTML = `
-        <span class="sc-media"><img src="${p.image}" alt="${S.esc(p.name_fa || p.name)}" loading="lazy"></span>
+        <span class="sc-media">
+          <img src="${p.image}" alt="${S.esc(p.name_fa || p.name)}" loading="lazy">
+          ${p.badge ? `<span class="sc-badge">${S.esc(p.badge)}</span>` : ''}
+        </span>
         <span class="sc-body">
           <b>${S.esc(p.name_fa || p.name)}</b>
           <small>${S.esc(tag)}</small>
-          <span class="sc-price">${S.toman(p.price)}</span>
+          <span class="sc-price-row">
+            <span class="sc-price">${S.toman(p.price)}</span>
+            <span class="sc-go">${UI.icon('arrowL', 15)}</span>
+          </span>
         </span>`;
       showcase.appendChild(card);
     });
+    UI.observeReveals(showcase);
   }
 
   /* ---- count-up for stats (Persian digits) ---- */
@@ -537,35 +544,57 @@ document.addEventListener('DOMContentLoaded', () => {
   display:block;text-align:left;margin-top:2px;
 }
 
-/* ========= PRODUCTS SHOWCASE (poster 3) ========= */
-.ab-showcase{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-@media(max-width:1020px){.ab-showcase{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:560px){.ab-showcase{grid-template-columns:1fr}}
+/* ========= PRODUCTS SHOWCASE (poster 3 — big 2×2 grid) ========= */
+.ab-showcase{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+@media(max-width:680px){.ab-showcase{grid-template-columns:1fr}}
 .show-card{
-  display:flex;flex-direction:column;border-radius:20px;overflow:hidden;
+  display:flex;flex-direction:column;border-radius:24px;overflow:hidden;
   background:linear-gradient(180deg,var(--panel2),var(--panel));
-  border:1px solid var(--line);text-decoration:none;
+  border:1px solid var(--line);text-decoration:none;position:relative;
   transition:transform .35s,border-color .35s,box-shadow .35s;
 }
-.show-card:hover{
-  transform:translateY(-6px);border-color:rgba(124,196,255,.4);
-  box-shadow:0 26px 54px -24px rgba(124,196,255,.35);
+.show-card::before{
+  content:"";position:absolute;inset-inline:0;top:0;height:1px;z-index:1;
+  background:linear-gradient(90deg,transparent,rgba(124,196,255,.55),transparent);
+  opacity:0;transition:opacity .35s;
 }
-.sc-media{display:block;aspect-ratio:16/11;overflow:hidden;position:relative}
-.sc-media img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
-.show-card:hover .sc-media img{transform:scale(1.06)}
+.show-card:hover{
+  transform:translateY(-7px);border-color:rgba(124,196,255,.42);
+  box-shadow:0 30px 60px -24px rgba(124,196,255,.32);
+}
+.show-card:hover::before{opacity:1}
+.sc-media{display:block;aspect-ratio:16/9.4;overflow:hidden;position:relative}
+.sc-media img{width:100%;height:100%;object-fit:cover;transition:transform .65s}
+.show-card:hover .sc-media img{transform:scale(1.07)}
 .sc-media::after{
   content:"";position:absolute;inset:0;
-  background:linear-gradient(180deg,transparent 55%,rgba(6,9,17,.55));
+  background:linear-gradient(180deg,rgba(6,9,17,.08) 40%,rgba(6,9,17,.72));
 }
-.sc-body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:6px;flex:1}
-.sc-body b{font-size:14.5px;color:var(--ink)}
-.sc-body small{font-size:11.5px;color:var(--ink3)}
+.sc-badge{
+  position:absolute;top:14px;inset-inline-start:14px;z-index:2;
+  padding:5px 13px;border-radius:999px;font-size:11px;font-weight:800;
+  background:rgba(10,16,32,.72);backdrop-filter:blur(6px);
+  border:1px solid rgba(124,196,255,.35);color:var(--ab-accent);
+}
+.sc-body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:7px;flex:1}
+.sc-body b{font-size:16.5px;font-weight:800;color:var(--ink)}
+.sc-body small{font-size:12px;color:var(--ink3);line-height:1.8}
+.sc-price-row{
+  margin-top:auto;padding-top:12px;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  border-top:1px dashed var(--line);
+}
 .sc-price{
-  margin-top:auto;padding-top:10px;
   font-family:'AzarMehr Mono','Estedad',sans-serif;
-  font-size:14px;font-weight:700;color:var(--ab-accent);
+  font-size:15px;font-weight:700;color:var(--ab-accent);
 }
+.sc-go{
+  width:32px;height:32px;border-radius:50%;flex:none;
+  background:rgba(124,196,255,.08);border:1px solid rgba(124,196,255,.28);
+  display:grid;place-items:center;color:var(--ab-accent);
+  transition:background .3s,transform .3s;
+}
+.show-card:hover .sc-go{background:rgba(124,196,255,.2);transform:translateX(-4px)}
 .ab-brands{
   margin-top:26px;border:1px dashed rgba(124,196,255,.22);border-radius:18px;
   padding:18px 22px;display:flex;flex-direction:column;gap:12px;align-items:center;

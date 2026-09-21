@@ -12,7 +12,7 @@
   $('#tabOrdersIco').innerHTML = UI.icon('box', 15);
   $('#tabProductsIco').innerHTML = UI.icon('tag', 15);
   $('#tabChatsIco').innerHTML = UI.icon('headset', 15);
-  $('#tabSettingsIco').innerHTML = UI.icon('shield', 15);
+  $('#tabSettingsIco').innerHTML = UI.icon('gear', 15);
   $('#logoutIco').innerHTML = UI.icon('x', 15);
   $('#npIco').innerHTML = UI.icon('plus', 16);
   $('#pfIco').innerHTML = UI.icon('upload', 20);
@@ -21,6 +21,9 @@
   $('#pfX').textContent = '×';
   $('#lockIco').innerHTML = UI.icon('shield', 30);
   $('#tvEmptyIco').innerHTML = UI.icon('headset', 30);
+  $('#adSearchIco').innerHTML = UI.icon('search', 19);
+  const homeIco = $('#adHomeIco');
+  if (homeIco) homeIco.insertAdjacentHTML('afterbegin', UI.icon('pin', 14));
 
   /* =========================================================
      ADMIN AUTH (lock screen)
@@ -81,6 +84,20 @@
      ORDERS
      ========================================================= */
   let orderFilter = 'all';
+  let adminQuery = '';
+
+  const orderMatchesQuery = (o) => {
+    if (!adminQuery) return true;
+    const hay = [
+      o.code, o.customer && o.customer.fullname, o.customer && o.customer.phone,
+      o.customer && o.customer.city,
+    ].filter(Boolean).join(' ').toLowerCase();
+    return hay.includes(adminQuery);
+  };
+  const productMatchesQuery = (p) => {
+    if (!adminQuery) return true;
+    return [p.name_fa, p.name, p.category_fa].filter(Boolean).join(' ').toLowerCase().includes(adminQuery);
+  };
 
   function statusPill(s) {
     const info = S.statusInfo(s);
@@ -94,10 +111,26 @@
     const revenue = orders.filter((o) => o.status !== 'rejected')
       .reduce((s, o) => s + (o.total || 0), 0);
     $('#adminStats').innerHTML = `
-      <div class="stat"><b>${S.faNum(orders.length)}</b><span>سفارش</span></div>
-      <div class="stat"><b>${S.faNum(orders.filter((o) => o.status === 'pending').length)}</b><span>در انتظار</span></div>
-      <div class="stat"><b>${S.faNum(products.length)}</b><span>محصول</span></div>
-      <div class="stat"><b style="font-size:14px">${S.toman(revenue)}</b><span>مجموع فروش</span></div>`;
+      <div class="ad-stat">
+        <span class="ads-ico">${UI.icon('users', 20)}</span>
+        <b>${S.toman(revenue)}</b>
+        <span>مجموع فروش</span>
+      </div>
+      <div class="ad-stat">
+        <span class="ads-ico">${UI.icon('box', 20)}</span>
+        <b>${S.faNum(products.length)}</b>
+        <span>محصول</span>
+      </div>
+      <div class="ad-stat">
+        <span class="ads-ico">${UI.icon('star', 20)}</span>
+        <b>${S.faNum(orders.filter((o) => o.status === 'pending').length)}</b>
+        <span>در انتظار</span>
+      </div>
+      <div class="ad-stat">
+        <span class="ads-ico">${UI.icon('headset', 20)}</span>
+        <b>${S.faNum(orders.length)}</b>
+        <span>سفارش</span>
+      </div>`;
     $('#ordersCount').textContent = S.faNum(orders.length);
     $('#productsCount').textContent = S.faNum(products.length);
     const unread = S.adminUnreadCount();
@@ -109,7 +142,9 @@
   function renderOrders() {
     renderStats();
     const wrap = $('#ordersList');
-    const orders = S.getOrders().filter((o) => orderFilter === 'all' || o.status === orderFilter);
+    const orders = S.getOrders()
+      .filter((o) => orderFilter === 'all' || o.status === orderFilter)
+      .filter(orderMatchesQuery);
 
     if (!orders.length) {
       wrap.innerHTML = `
@@ -129,22 +164,22 @@
       const firstItem = S.getProduct(o.items[0].id);
       el.innerHTML = `
         <div class="oc-main">
-          <img class="oc-img" src="${firstItem ? firstItem.image : ''}" alt="">
+          <div class="oc-side-img">
+            <img class="oc-img" src="${firstItem ? firstItem.image : ''}" alt="">
+            <b class="oc-code" dir="ltr">${S.esc(o.code)}</b>
+          </div>
           <div class="oc-info">
-            <div class="oc-top">
-              <b class="oc-code" dir="ltr">${S.esc(o.code)}</b>
-              ${statusPill(o.status)}
-            </div>
             <div class="oc-name">
               ${S.esc(o.customer.fullname)}
-              <span class="oc-en">${S.faNum(itemsCount)} کالا · ${S.esc(o.customer.city)}</span>
+              <span class="oc-en">${S.faNum(itemsCount)} کالا — ${S.esc(o.customer.city)}</span>
             </div>
             <div class="oc-date">${S.faDateTime(o.createdAt)}</div>
+            ${statusPill(o.status)}
           </div>
           <div class="oc-side">
             <div class="oc-total">${S.toman(o.total)}</div>
             <div class="oc-actions">
-              <button class="btn btn-ghost btn-sm" data-view="${o.id}">جزئیات و فیش</button>
+              <button class="btn btn-ghost btn-sm oc-receipt-btn" data-view="${o.id}">${UI.icon('doc', 14)} جزئیات و فیش</button>
             </div>
           </div>
         </div>`;
@@ -266,6 +301,13 @@
     });
   });
 
+  /* global search — filters orders + products live */
+  $('#adSearch').addEventListener('input', (e) => {
+    adminQuery = e.target.value.trim().toLowerCase();
+    renderOrders();
+    renderProducts();
+  });
+
   /* =========================================================
      PRODUCTS
      ========================================================= */
@@ -274,7 +316,7 @@
 
   function renderProducts() {
     const wrap = $('#adminProducts');
-    const list = S.getProducts();
+    const list = S.getProducts().filter(productMatchesQuery);
     wrap.innerHTML = '';
     list.forEach((p) => {
       const el = document.createElement('div');

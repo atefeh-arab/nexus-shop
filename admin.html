@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="fonts/fonts.css?v=1">
 <link rel="stylesheet" href="css/styles.css?v=8">
-<link rel="stylesheet" href="css/admin.css?v=8">
+<link rel="stylesheet" href="css/admin.css?v=9">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26'><rect x='1' y='1' width='24' height='24' rx='7' fill='%230a1020' stroke='%237cc4ff' stroke-width='2'/><path d='M8 17.5V9l5 5.4L18 9v8.5' stroke='%237cc4ff' stroke-width='2.2' fill='none' stroke-linecap='round'/></svg>">
 </head>
 <body class="admin-body">
@@ -31,16 +31,31 @@
   </div>
 </div>
 
-<main class="section container" id="adminMain" style="padding-top:calc(var(--nav-h) + 40px)" hidden>
-  <div class="page-head">
-    <div>
-      <div class="eyebrow">Admin Panel</div>
-      <h1>پنل مدیریت نکسوس</h1>
+<main class="admin-main" id="adminMain" hidden>
+  <!-- ============ CINEMATIC BANNER HERO (reference style) ============ -->
+  <section class="ad-hero">
+    <img class="ad-hero-img" src="img/holo-dashboard.jpg" alt="" aria-hidden="true">
+    <div class="ad-hero-tint"></div>
+    <div class="container ad-hero-inner">
+      <div class="ad-hero-top">
+        <h1 class="ad-title">پنل مدیریت <em>نکسوس</em></h1>
+        <div class="ad-crumb">
+          <span class="ad-home" id="adHomeIco">خانه</span><i>/</i><span>پنل مدیریت</span><i>/</i><b>محصولات</b>
+        </div>
+      </div>
+      <div class="ad-hero-stats" id="adminStats"></div>
     </div>
-    <div class="admin-stats" id="adminStats"></div>
-  </div>
+  </section>
 
-  <div class="sync-status" id="syncStatus" style="margin:-14px 0 18px"></div>    <div class="admin-tabs">
+  <div class="container ad-body">
+    <div class="sync-status" id="syncStatus"></div>
+
+    <div class="ad-search">
+      <span class="ad-search-ico" id="adSearchIco"></span>
+      <input type="text" id="adSearch" placeholder="جستجو در محصولات، سفارش‌ها و مشتریان…" autocomplete="off">
+    </div>
+
+    <div class="admin-tabs" id="adminTabs">
     <button class="admin-tab active" data-tab="orders">
       <span id="tabOrdersIco"></span> سفارش‌ها <span class="tab-count" id="ordersCount">۰</span>
     </button>
@@ -60,7 +75,7 @@
 
   <!-- ============ ORDERS TAB ============ -->
   <section id="tab-orders" class="tab-panel">
-    <div class="admin-toolbar">
+    <div class="ad-filterbar">
       <div class="chips" id="orderFilters" style="display:flex;gap:8px;flex-wrap:wrap">
         <button class="chip active" data-f="all">همه</button>
         <button class="chip" data-f="pending">در انتظار تایید</button>
@@ -116,6 +131,7 @@
       </form>
     </div>
   </section>
+  </div><!-- /ad-body -->
 </main>
 
 <!-- ============ PRODUCT FORM MODAL ============ -->
@@ -213,7 +229,7 @@
 </div>
 
 <script src="js/store.js?v=7"></script>
-<script src="js/app.js?v=7"></script>
-<script src="js/admin.js?v=7"></script>
+<script src="js/app.js?v=9"></script>
+<script src="js/admin.js?v=9"></script>
 </body>
 </html>
