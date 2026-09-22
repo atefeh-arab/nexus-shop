@@ -304,8 +304,8 @@
     <rect x="26" y="26" width="568" height="340" rx="10" fill="url(#scr)"/>
     <rect x="26" y="26" width="568" height="340" rx="10" fill="none" stroke="rgba(124,196,255,.25)"/>
     <rect x="286" y="26" width="48" height="12" rx="3" fill="#000"/>
-    <text x="310" y="150" text-anchor="middle" font-family="Vazirmatn,Tahoma" font-size="44" fill="#7cc4ff" font-weight="700">NEXUS</text>
-    <text x="310" y="190" text-anchor="middle" font-family="Vazirmatn,Tahoma" font-size="20" fill="rgba(214,228,255,.75)">POWER · SILENCE · PRECISION</text>
+    <text x="310" y="150" text-anchor="middle" font-family="Anjoman,Tahoma" font-size="44" fill="#7cc4ff" font-weight="700">NEXUS</text>
+    <text x="310" y="190" text-anchor="middle" font-family="Anjoman,Tahoma" font-size="20" fill="rgba(214,228,255,.75)">POWER · SILENCE · PRECISION</text>
     <rect x="90" y="230" width="200" height="10" rx="5" fill="rgba(124,196,255,.35)"/>
     <rect x="90" y="230" width="120" height="10" rx="5" fill="#7cc4ff"/>
     <rect x="90" y="255" width="200" height="10" rx="5" fill="rgba(124,196,255,.22)"/>
@@ -337,8 +337,8 @@
     <rect x="10" y="10" width="640" height="330" rx="18" fill="url(#lid)" stroke="rgba(255,255,255,.10)"/>
     <rect x="30" y="30" width="600" height="290" rx="10" fill="url(#scr)"/>
     <rect x="276" y="30" width="48" height="11" rx="3" fill="#000"/>
-    <text x="330" y="150" text-anchor="middle" font-family="Vazirmatn,Tahoma" font-size="42" fill="#f4b06a" font-weight="700">NEXUS</text>
-    <text x="330" y="190" text-anchor="middle" font-family="Vazirmatn,Tahoma" font-size="20" fill="rgba(255,240,220,.75)">THIN · LIGHT · LIMITLESS</text>
+    <text x="330" y="150" text-anchor="middle" font-family="Anjoman,Tahoma" font-size="42" fill="#f4b06a" font-weight="700">NEXUS</text>
+    <text x="330" y="190" text-anchor="middle" font-family="Anjoman,Tahoma" font-size="20" fill="rgba(255,240,220,.75)">THIN · LIGHT · LIMITLESS</text>
     <rect x="100" y="230" width="220" height="9" rx="4.5" fill="rgba(244,176,106,.35)"/>
     <rect x="100" y="230" width="130" height="9" rx="4.5" fill="rgba(244,176,106,.9)"/>
     <rect x="100" y="252" width="220" height="9" rx="4.5" fill="rgba(244,176,106,.25)"/>
@@ -362,8 +362,8 @@
   <rect width="800" height="560" fill="url(#g)"/>
   <circle cx="650" cy="80" r="150" fill="${T.c}14"/>
   <circle cx="120" cy="480" r="120" fill="${T.c}0e"/>
-  <text x="400" y="245" text-anchor="middle" font-family="Vazirmatn,Tahoma" font-size="40" font-weight="700" fill="${T.c}">${esc(title)}</text>
-  <text x="400" y="300" text-anchor="middle" font-family="Vazirmatn,Tahoma" font-size="19" fill="rgba(230,238,255,.65)">${esc(sub)}</text>
+  <text x="400" y="245" text-anchor="middle" font-family="Anjoman,Tahoma" font-size="40" font-weight="700" fill="${T.c}">${esc(title)}</text>
+  <text x="400" y="300" text-anchor="middle" font-family="Anjoman,Tahoma" font-size="19" fill="rgba(230,238,255,.65)">${esc(sub)}</text>
   <rect x="280" y="340" width="240" height="2" fill="${T.c}55"/>
 </svg>`)}`;
   }

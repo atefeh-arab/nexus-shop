@@ -1,37 +1,28 @@
 /* =========================================================
    NEXUS — Local Web Fonts
-   ۱) استعداد (Estedad) — متن و تیترهای اصلی
-      طراح: امین عابدی — مجوز آزاد SIL OFL 1.1
-   ۲) آذرمهر مونو (AzarMehr Monospaced) — از لیست فونت‌های کاربر
-      برای لهجه‌های تکنیکی (قیمت، بَج، رابط OS داخل لپ‌تاپ)
+   فقط از لیست فونت‌های ارسالی کاربر:
+   ۱) انجمن (Anjoman) — متن و تیترهای اصلی
+      طراح: هیربد لطفیان
+   ۲) آذرمهر مونو (AzarMehr Monospaced) — لهجه‌های تکنیکی
+      (قیمت، بَج، برچسب‌های CPU/GPU/RAM داخل لپ‌تاپ)
       طراح: امین عابدی — مجوز آزاد SIL OFL 1.1
    ========================================================= */
 
-/* ---- Estedad: بدنه و تیترها ---- */
+/* ---- انجمن: بدنه و تیترها ---- */
 @font-face{
-  font-family:'Estedad';
-  src:url('Estedad-Regular.ttf') format('truetype');
-  font-weight:400;font-style:normal;font-display:swap;
+  font-family:'Anjoman';
+  src:url('Anjoman-Light.ttf') format('truetype');
+  font-weight:300;font-style:normal;font-display:swap;
 }
 @font-face{
-  font-family:'Estedad';
-  src:url('Estedad-Medium.ttf') format('truetype');
-  font-weight:500;font-style:normal;font-display:swap;
+  font-family:'Anjoman';
+  src:url('Anjoman-Regular.ttf') format('truetype');
+  font-weight:400 500;font-style:normal;font-display:swap;
 }
 @font-face{
-  font-family:'Estedad';
-  src:url('Estedad-SemiBold.ttf') format('truetype');
-  font-weight:600;font-style:normal;font-display:swap;
-}
-@font-face{
-  font-family:'Estedad';
-  src:url('Estedad-Bold.ttf') format('truetype');
-  font-weight:700;font-style:normal;font-display:swap;
-}
-@font-face{
-  font-family:'Estedad';
-  src:url('Estedad-Black.ttf') format('truetype');
-  font-weight:800 900;font-style:normal;font-display:swap;
+  font-family:'Anjoman';
+  src:url('Anjoman-Bold.ttf') format('truetype');
+  font-weight:600 900;font-style:normal;font-display:swap;
 }
 
 /* ---- آذرمهر مونو: لهجه‌های تکنیکی ---- */
