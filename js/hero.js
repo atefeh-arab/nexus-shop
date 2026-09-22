@@ -138,35 +138,35 @@
     });
     stInstance = tl.scrollTrigger;
 
-    /* Phase 1 — hold closed (0 → ~8%) */
-    tl.to(e.heroBot, { opacity: 1, duration: 0.5 }, 0);
+    /* Phase 1 — hold closed (brief) */
+    tl.to(e.heroBot, { opacity: 1, duration: 0.3 }, 0);
 
     /* Phase 2 — lid swings open: -86° (closed) → +12° (~102° open).
        If the lid would reach the headline, applyLaptopClamp drops the
        laptop for those frames (see onUpdate) and it returns after. */
-    tl.to(e.lid,   { rotateX: 12, ease: 'power2.inOut', duration: 4.5 }, 1.0)
-      .to(e.laptop, { rotateX: 22, ease: 'power2.inOut', duration: 4.5 }, 1.0)
-      .to(e.heroBot, { opacity: 0, y: 20, duration: 1.0 }, 1.0)
+    tl.to(e.lid,   { rotateX: 12, ease: 'power2.inOut', duration: 2.6 }, 0.4)
+      .to(e.laptop, { rotateX: 22, ease: 'power2.inOut', duration: 2.6 }, 0.4)
+      .to(e.heroBot, { opacity: 0, y: 20, duration: 0.6 }, 0.4)
       /* text drifts DOWN as the lid rises, so they never collide */
-      .to(e.heroTop, { y: 14, duration: 3.5, ease: 'none' }, 1.0);
+      .to(e.heroTop, { y: 14, duration: 2.2, ease: 'none' }, 0.4);
 
     /* Phase 3 — screen wakes; the night scene behind it fades in too */
-    tl.to(e.screen, { opacity: 1, filter: 'brightness(1.15)', ease: 'power2.out', duration: 1.2 }, 4.5)
-      .to(e.glow,   { opacity: 1, ease: 'power2.out', duration: 1.2 }, 4.5)
-      .to(e.ui,     { opacity: 1, ease: 'power2.out', duration: 1.0 }, 5.0)
+    tl.to(e.screen, { opacity: 1, filter: 'brightness(1.15)', ease: 'power2.out', duration: 0.9 }, 2.8)
+      .to(e.glow,   { opacity: 1, ease: 'power2.out', duration: 0.9 }, 2.8)
+      .to(e.ui,     { opacity: 1, ease: 'power2.out', duration: 0.8 }, 3.2)
       .add(() => {
         const bg = document.getElementById('heroBg');
         if (bg) bg.classList.add('on');
-      }, 4.2);
+      }, 2.6);
 
     /* Phase 4 — spec tiles stagger in */
-    tl.to(e.specs, { opacity: 1, y: 0, stagger: 0.35, ease: 'power2.out', duration: 1.6 }, 5.4);
+    tl.to(e.specs, { opacity: 1, y: 0, stagger: 0.22, ease: 'power2.out', duration: 1.0 }, 3.6);
 
     /* Phase 5 — gentle zoom out; store slides up over the still-lit laptop */
-    tl.to(e.heroTop, { y: -140, opacity: 0, ease: 'power2.in', duration: 1.6 }, 7.4)
-      .to(e.camera, { scale: 0.62, y: -44, ease: 'power2.inOut', duration: 2.2 }, 7.4)
-      .to(e.laptop, { rotateX: 15, ease: 'power2.inOut', duration: 2.2 }, 7.4)
-      .to(e.glow, { opacity: 0.45, ease: 'power2.inOut', duration: 2.2 }, 7.4);
+    tl.to(e.heroTop, { y: -140, opacity: 0, ease: 'power2.in', duration: 1.0 }, 5.0)
+      .to(e.camera, { scale: 0.62, y: -44, ease: 'power2.inOut', duration: 1.4 }, 5.0)
+      .to(e.laptop, { rotateX: 15, ease: 'power2.inOut', duration: 1.4 }, 5.0)
+      .to(e.glow, { opacity: 0.45, ease: 'power2.inOut', duration: 1.4 }, 5.0);
 
     currentMode = 'scroll';
   }

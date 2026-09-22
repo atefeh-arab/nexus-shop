@@ -68,10 +68,16 @@
     const header = document.createElement('header');
     header.className = 'site-header';
     header.id = 'siteHeader';
-    const logoSvg = `<svg width="26" height="26" viewBox="0 0 26 26" fill="none"><rect x="1.5" y="1.5" width="23" height="23" rx="7" stroke="url(#lg)" stroke-width="2"/><path d="M8 17.5V9l5 5.4L18 9v8.5" stroke="url(#lg)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="lg" x1="0" y1="0" x2="26" y2="26"><stop stop-color="#7cc4ff"/><stop offset="1" stop-color="#3d8bd6"/></linearGradient></defs></svg>`;
+    const logoSvg = `<svg width="34" height="34" viewBox="0 0 26 26" fill="none"><rect x="1.5" y="1.5" width="23" height="23" rx="7" stroke="url(#lg)" stroke-width="2"/><path d="M8 17.5V9l5 5.4L18 9v8.5" stroke="url(#lg)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="lg" x1="0" y1="0" x2="26" y2="26"><stop stop-color="#7cc4ff"/><stop offset="1" stop-color="#3d8bd6"/></linearGradient></defs></svg>`;
     header.innerHTML = `
-      <div class="container nav-inner">
-        <a class="brand" href="index.html">${logoSvg}<span>NEXUS</span></a>
+      <div class="nav-pill container">
+        <a class="brand" href="index.html">
+          <span class="brand-txt">
+            <b>NEXUS</b>
+            <small>POWER YOUR TOMORROW</small>
+          </span>
+          ${logoSvg}
+        </a>
         <nav class="nav-links" aria-label="ناوبری اصلی">
           <a href="index.html#store" data-k="home">فروشگاه</a>
           <a href="about.html" data-k="about">درباره ما</a>

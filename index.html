@@ -6,13 +6,62 @@
 <title>نکسوس — فروشگاه تخصصی لپ‌تاپ و کامپیوتر</title>
 <meta name="description" content="فروشگاه تخصصی لپ‌تاپ و کامپیوتر نکسوس — خرید لپ‌تاپ گیمینگ، ایستگاه کاری و لوازم جانبی با ضمانت اصالت کالا." />
 <link rel="stylesheet" href="fonts/fonts.css?v=2">
-<link rel="stylesheet" href="css/styles.css?v=10">
-<link rel="stylesheet" href="css/hero.css?v=99">
+<link rel="stylesheet" href="css/styles.css?v=11">
+<link rel="stylesheet" href="css/hero.css?v=100">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26'><rect x='1' y='1' width='24' height='24' rx='7' fill='%230a1020' stroke='%237cc4ff' stroke-width='2'/><path d='M8 17.5V9l5 5.4L18 9v8.5' stroke='%237cc4ff' stroke-width='2.2' fill='none' stroke-linecap='round'/></svg>">
 <script src="js/vendor/gsap.min.js"></script>
 <script src="js/vendor/ScrollTrigger.min.js"></script>
 </head>
 <body>
+
+<!-- ============ INTRO TOP: FEATURE CARDS + SHOWROOM BANNER ============ -->
+<section class="intro-top" id="introTop">
+  <div class="container">
+
+    <div class="feature-row">
+      <article class="fcard reveal" style="--fc:180 140 255">
+        <div class="fcard-head"><h3>ضمانت اصالت کالا</h3><span class="fcard-ico" data-ico="shield"></span></div>
+        <p>تمامی محصولات اورجینال با گارانتی رسمی شرکت</p>
+        <a class="fcard-arrow" href="about.html#license" aria-label="اطلاعات بیشتر"></a>
+      </article>
+      <article class="fcard reveal" style="--fc:94 231 161">
+        <div class="fcard-head"><h3>ارسال سریع و به‌موقع</h3><span class="fcard-ico" data-ico="truck"></span></div>
+        <p>تهران: ۴ تا ۶ ساعت | سایر شهرها: ۲۴ تا ۷۲ ساعت</p>
+        <a class="fcard-arrow" href="about.html#terms" aria-label="اطلاعات بیشتر"></a>
+      </article>
+      <article class="fcard reveal" style="--fc:124 196 255">
+        <div class="fcard-head"><h3>پشتیبانی تخصصی</h3><span class="fcard-ico" data-ico="headset"></span></div>
+        <p>مشاوره خرید و نصب رایگان، توسط کارشناسان مجرب</p>
+        <a class="fcard-arrow" href="about.html#visit" aria-label="اطلاعات بیشتر"></a>
+      </article>
+      <article class="fcard reveal" style="--fc:180 140 255">
+        <div class="fcard-head"><h3>۷ روز مهلت بازگشت</h3><span class="fcard-ico" data-ico="doc"></span></div>
+        <p>بدون قید و شرط؛ خرید با اطمینان، تضمین واقعی بدون دغدغه</p>
+        <a class="fcard-arrow" href="about.html#terms" aria-label="اطلاعات بیشتر"></a>
+      </article>
+    </div>
+
+    <div class="showroom-banner reveal" id="showroom">
+      <div class="sb-overlay" aria-hidden="true"></div>
+      <div class="sb-content">
+        <div class="sb-eyebrow">NEXUS <i>|</i> POWER YOUR TOMORROW</div>
+        <h1 class="sb-title">سخت‌افزار، قدرتان را <em>حضوری</em> بپسندید.</h1>
+        <p class="sb-desc">شوروم نکسوس در تهران میزبان شماست! دستگاه‌ها را روشن لمس کنید، تست کنید و با مشورت کارشناسان ما، با خیال راحت و اطمینان کامل خرید کنید.</p>
+        <div class="sb-actions">
+          <a href="about.html#visit" class="btn btn-primary btn-lg">اطلاعات بیشتر <span class="sb-arr"></span></a>
+          <a href="cart.html" class="btn btn-ghost btn-lg"><span class="sb-cart"></span> مشاهده سبد خرید</a>
+        </div>
+      </div>
+      <div class="sb-feats">
+        <div class="sbf"><span class="sbf-ico" data-ico="star"></span><div><b>محصولات اورجینال</b><small>با گارانتی معتبر</small></div></div>
+        <div class="sbf"><span class="sbf-ico" data-ico="headset"></span><div><b>پشتیبانی حرفه‌ای</b><small>قبل و بعد از خرید</small></div></div>
+        <div class="sbf"><span class="sbf-ico" data-ico="truck"></span><div><b>ارسال سریع</b><small>به سراسر کشور</small></div></div>
+        <div class="sbf"><span class="sbf-ico" data-ico="shield"></span><div><b>تضمین کیفیت</b><small>برندهای معتبر جهانی</small></div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
 
 <!-- ============ HERO: LAPTOP OPENS ON SCROLL ============ -->
 <section class="hero-scroll" id="heroScroll">
@@ -122,52 +171,11 @@
 
     <div class="product-grid" id="productGrid"></div>
   </section>
-
-  <!-- trust strip -->
-  <section class="section container">
-    <div class="trust-strip">
-      <div class="trust-item reveal">
-        <div class="t-ico" data-ico="shield"></div>
-        <div><b>ضمانت اصالت کالا</b><span>تمام محصولات اورجینال با گارانتی رسمی شرکتی</span></div>
-      </div>
-      <div class="trust-item reveal">
-        <div class="t-ico" data-ico="truck"></div>
-        <div><b>ارسال سریع و بیمه‌شده</b><span>تهران همان روز، شهرستان ۲۴ تا ۷۲ ساعت</span></div>
-      </div>
-      <div class="trust-item reveal">
-        <div class="t-ico" data-ico="headset"></div>
-        <div><b>پشتیبانی تخصصی</b><span>مشاوره خرید و نصب رایگان توسط کارشناسان</span></div>
-      </div>
-      <div class="trust-item reveal">
-        <div class="t-ico" data-ico="doc"></div>
-        <div><b>۷ روز مهلت بازگشت</b><span>بدون قید و شرط، حتی اگر فقط نظرتان عوض شد</span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA banner -->
-  <section class="section container">
-    <div class="cta-banner reveal">
-      <div class="cta-glow"></div>
-      <div class="cta-content">
-        <div class="eyebrow">سفارش‌های حضوری و تلفنی</div>
-        <h2>سخت‌افزار بعدی‌تان را <em>حضوری</em> ببینید.</h2>
-        <p>
-          شوروم نکسوس در تهران میزبان شماست؛ دستگاه‌ها را روشن لمس کنید،
-          تست رنگ بگیرید و با کارشناسان ما مشورت کنید — بدون هیچ تعهدی به خرید.
-        </p>
-        <div class="cta-actions">
-          <a href="about.html#visit" class="btn btn-primary btn-lg">اطلاعات بازدید حضوری</a>
-          <a href="cart.html" class="btn btn-ghost btn-lg">مشاهده سبد خرید</a>
-        </div>
-      </div>
-    </div>
-  </section>
 </main>
 
 <script src="js/store.js?v=8"></script>
-<script src="js/app.js?v=10"></script>
-<script src="js/hero.js?v=99"></script>
+<script src="js/app.js?v=11"></script>
+<script src="js/hero.js?v=100"></script>
 <script>
 /* ---- render products with category filter ---- */
 (function () {
@@ -197,9 +205,11 @@
     });
   });
 
-  /* trust icons */
-  document.querySelectorAll('.trust-item .t-ico').forEach((el) => {
-    el.innerHTML = UI.icon(el.dataset.ico, 24);
+  /* intro icons: feature cards + banner mini-features + banner buttons */
+  document.querySelectorAll('.fcard-ico,.sbf-ico,.sb-arr,.sb-cart,.fcard-arrow').forEach((el) => {
+    const name = (el.classList.contains('sb-arr') || el.classList.contains('fcard-arrow')) ? 'arrow'
+      : el.classList.contains('sb-cart') ? 'cart' : el.dataset.ico;
+    el.innerHTML = UI.icon(name, el.classList.contains('fcard-arrow') ? 16 : 19);
   });
 
   /* if URL has #store, jump past the hero pin cleanly */
@@ -209,42 +219,5 @@
 })();
 </script>
 
-<style>
-/* ---- page-local: trust strip + cta banner ---- */
-.trust-strip{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:16px;
-}
-@media(max-width:980px){.trust-strip{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:560px){.trust-strip{grid-template-columns:1fr}}
-.trust-item{
-  display:flex;gap:14px;align-items:flex-start;
-  background:linear-gradient(180deg,var(--panel2),var(--panel));
-  border:1px solid var(--line);border-radius:18px;padding:20px;
-}
-.trust-item .t-ico{
-  width:46px;height:46px;flex:none;border-radius:14px;
-  background:rgba(124,196,255,.09);border:1px solid rgba(124,196,255,.22);
-  display:grid;place-items:center;color:var(--accent);
-}
-.trust-item b{display:block;font-size:14px;margin-bottom:5px}
-.trust-item span{font-size:12px;color:var(--ink2);line-height:1.8}
-.cta-banner{
-  position:relative;overflow:hidden;
-  border-radius:28px;border:1px solid var(--line2);
-  background:linear-gradient(120deg,#101b33 0%,#0a1020 55%,#0d1526 100%);
-  padding:clamp(34px,5vw,70px);
-}
-.cta-glow{
-  position:absolute;inset:-40%;
-  background:radial-gradient(ellipse 45% 45% at 80% 20%, rgba(124,196,255,.16), transparent 60%),
-             radial-gradient(ellipse 40% 40% at 15% 85%, rgba(244,176,106,.1), transparent 60%);
-  pointer-events:none;
-}
-.cta-content{position:relative;max-width:56ch}
-.cta-content h2{font-size:clamp(24px,3.2vw,38px);font-weight:800;margin:12px 0 14px}
-.cta-content h2 em{font-style:normal;color:var(--amber)}
-.cta-content p{color:var(--ink2);font-size:14.5px;line-height:2;margin-bottom:24px}
-.cta-actions{display:flex;gap:12px;flex-wrap:wrap}
-</style>
 </body>
 </html>
