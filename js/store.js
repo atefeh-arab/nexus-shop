@@ -698,7 +698,9 @@
   const DEFAULT_PASS = '123456';
   function getPass() { return load(LS.ADMIN, { pass: DEFAULT_PASS }).pass; }
   function setPass(p) { save(LS.ADMIN, { pass: p }); }
-  function checkPass(p) { return String(p) === getPass(); }
+  /* normalize Persian/Arabic digits → Latin so typing ۱۲۳۴۵۶ also works */
+  function normDigits(s) { return String(s).replace(/[\u06F0-\u06F9]/g, d => String(d.charCodeAt(0) - 0x06F0)).replace(/[\u0660-\u0669]/g, d => String(d.charCodeAt(0) - 0x0660)); }
+  function checkPass(p) { return normDigits(p) === normDigits(getPass()); }
   function isUnlocked() { return sessionStorage.getItem('nexus.adminUnlocked') === '1'; }
   function unlock() { sessionStorage.setItem('nexus.adminUnlocked', '1'); }
   function lock() { sessionStorage.removeItem('nexus.adminUnlocked'); }
