@@ -35,6 +35,16 @@
     if (unlocked) { renderOrders(); renderProducts(); renderThreads(); startCloudSync(); }
   }
 
+  /* forgot-password / reset — wipes the stored admin key so the default pass applies again */
+  const resetBtn = $('#resetPassBtn');
+  if (resetBtn) resetBtn.addEventListener('click', () => {
+    if (!confirm('رمز پنل به حالت پیش‌فرض (123456) برگردد؟')) return;
+    try { localStorage.removeItem('nexus.admin.v1'); } catch (err) {}
+    UI.toast('رمز به حالت پیش‌فرض برگشت: 123456');
+    $('#lockPass').value = '';
+    $('#lockError').hidden = true;
+  });
+
   $('#lockForm').addEventListener('submit', (e) => {
     e.preventDefault();
     const pass = $('#lockPass').value;
