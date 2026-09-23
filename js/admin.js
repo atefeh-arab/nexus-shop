@@ -40,6 +40,7 @@
   if (resetBtn) resetBtn.addEventListener('click', () => {
     if (!confirm('رمز پنل به حالت پیش‌فرض (123456) برگردد؟')) return;
     try { localStorage.removeItem('nexus.admin.v1'); } catch (err) {}
+    try { localStorage.removeItem('nexus.admin.v2'); } catch (err) {}
     UI.toast('رمز به حالت پیش‌فرض برگشت: 123456');
     $('#lockPass').value = '';
     $('#lockError').hidden = true;

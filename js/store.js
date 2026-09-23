@@ -10,7 +10,7 @@
     ORDERS: 'nexus.orders.v1',
     PRODUCTS: 'nexus.products.v1',
     CHAT: 'nexus.chat.v1',
-    ADMIN: 'nexus.admin.v1',
+    ADMIN: 'nexus.admin.v2',
     SLOT: 'nexus.slot.v1',
   };
 
