@@ -695,7 +695,7 @@
   }
 
   /* ---------------- admin auth ---------------- */
-  const DEFAULT_PASS = 'nexus1405';
+  const DEFAULT_PASS = '123456';
   function getPass() { return load(LS.ADMIN, { pass: DEFAULT_PASS }).pass; }
   function setPass(p) { save(LS.ADMIN, { pass: p }); }
   function checkPass(p) { return String(p) === getPass(); }
