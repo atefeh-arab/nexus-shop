@@ -610,7 +610,7 @@ select.field-select{appearance:none;
 /* =========================================================
    INTRO TOP — feature cards + showroom banner (reference style)
    ========================================================= */
-.intro-top{padding:104px 0 26px;position:relative}
+.intro-top{padding:56px 0 60px;position:relative}
 .feature-row{
   display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:18px;
 }
